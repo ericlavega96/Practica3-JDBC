@@ -26,5 +26,12 @@ public class Main {
             attributes.put("titulo", "Página de artículos A&E");
             return new ModelAndView(attributes, "index.ftl");
         }, freeMarkerEngine);
+
+        get("/post", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Artículos A&E - Post");
+            return new ModelAndView(attributes, "post.ftl");
+        }, freeMarkerEngine);
+
     }
 }
