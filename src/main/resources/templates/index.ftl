@@ -69,7 +69,7 @@
                   <a href="#" class="btn btn-primary">Leer más &rarr;</a>
               </div>
               <div class="card-footer text-muted">
-                  Subido en el ${articulo.fechaText()} por
+                  Subido en ${articulo.fechaText()} por
                   <a href="#">${articulo.autor.nombre}</a>
               </div>
             </div>

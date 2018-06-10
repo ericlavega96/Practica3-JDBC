@@ -105,33 +105,6 @@
                 </div>
             </div>
           </#list>
-
-          <!-- Comment with nested comments -->
-          <div class="media mb-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-              </div>
-
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-              </div>
-
-            </div>
-          </div>
-
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -157,28 +130,20 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Ciencia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Naturaleza</a>
-                                </li>
-                                <li>
-                                    <a href="#">Deporte</a>
-                                </li>
+                                <#list tagsCol1 as t1>
+                                    <li>
+                                        <a href="#">${t1}</a>
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Actualidad</a>
-                                </li>
-                                <li>
-                                    <a href="#">Historia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Fantasía</a>
-                                </li>
+                                <#list tagsCol2 as t2>
+                                    <li>
+                                        <a href="#">${t2}</a>
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                     </div>

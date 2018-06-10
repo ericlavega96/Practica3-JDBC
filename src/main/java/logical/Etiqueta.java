@@ -28,4 +28,8 @@ public class Etiqueta {
     public void setEtiqueta(String etiqueta) {
         this.etiqueta = etiqueta;
     }
+
+    public String tagsTransform(){
+        return etiqueta.substring(0,0).toUpperCase() + etiqueta.substring(1).toLowerCase();
+    }
 }
