@@ -113,18 +113,15 @@
           <!-- Single Comment -->
 
 
-            <#list comentarios as comentario>
-              <div class="media mb-4">
-                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                  <div class="media-body">
-                  <h5 class="mt-0">${comentario.autor.username}</h5>
-                    ${comentario.comentario}
-                  </div>
-              </div>
-            </#list>
-
-
-
+          <#list comentarios as comentario>
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                <h5 class="mt-0">${comentario.autor.username}</h5>
+                  ${comentario.comentario}
+                </div>
+            </div>
+          </#list>
 
           <!-- Comment with nested comments -->
           <div class="media mb-4">

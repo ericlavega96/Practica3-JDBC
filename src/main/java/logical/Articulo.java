@@ -1,6 +1,7 @@
 package logical;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -83,5 +84,24 @@ public class Articulo {
 
     public void setListaEtiquetas(List<Etiqueta> listaEtiquetas) {
         this.listaEtiquetas = listaEtiquetas;
+    }
+
+    public String textoResumido(){
+        if(cuerpo.length() > 70){
+           return cuerpo.substring(0, 70)+"...";
+        }
+        else
+            return cuerpo;
+    }
+
+    public String fechaText(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return month+"/"+day+"/"+year;
     }
 }
