@@ -88,12 +88,11 @@
 
                 <div class="radioButton">
                     Permisos<br>
-                    <br>
                     <label>Administrador
-                        <input type="radio" name="isAdmin" checked>
+                        <input type="radio" name="permisos">
                     </label>
                     <label>Autor
-                        <input type="radio" name="isAutor">
+                        <input type="radio" name="permisos">
                     </label>
                 </div>
                 <br>

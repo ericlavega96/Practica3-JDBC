@@ -112,7 +112,9 @@ public class Main {
 
                 System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
 
-                Usuario nuevoUsuario = new Usuario(nombre,username,password, isAdmin.equals("on"),isAutor.endsWith("on"));
+                Usuario nuevoUsuario = new Usuario(nombre,username,password,
+                        !isAdmin.equals(null)||isAdmin.equals("on"),
+                        !isAutor.equals(null)||isAutor.endsWith("on"));
                 misUsuarios.add(nuevoUsuario);
 
                 response.redirect("/");
