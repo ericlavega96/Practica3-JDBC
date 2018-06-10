@@ -82,6 +82,33 @@ public class Main {
             }
             return "";
         });
+
+        get("/gestionarUsuarios", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Gestion de Usuarios-Artículos A&E");
+            return new ModelAndView(attributes, "usuariosIndex.ftl");
+        }, freeMarkerEngine);
+
+        post("/registrarNuevoUsuario", (request, response) -> {
+           // try {
+                String nombre = request.queryParams("nombre");
+                String username = request.queryParams("username");
+                String password = request.queryParams("password");
+                String isAdmin = request.queryParams("isAdmin");
+                String isAutor = request.queryParams("isAutor");
+
+                System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
+
+                Usuario nuevoUsuario = new Usuario(nombre,username,password,true,true);
+                misUsuarios.add(nuevoUsuario);
+
+                response.redirect("/");
+
+            //} catch (Exception e) {
+            //    System.out.println("Error al registrar un usuario " + e.toString());
+            //}
+            return "";
+        });
     }
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
