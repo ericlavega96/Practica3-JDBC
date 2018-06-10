@@ -13,6 +13,26 @@
           .registrarUsuarioContainer{
               margin: auto;
           }
+          button {
+              background-color: #007bff;
+              color: #fff;
+              padding: 12px 20px;
+              margin: 10px 0 ;
+              border: none;
+              cursor: pointer;
+              width: 100%;
+          }
+          input[type=text], input[type=password]{
+              width: 100%;
+              border: 1px solid #ccc;
+              box-sizing: border-box;
+              padding: 5px 5px;
+              margin: 10px 0;
+          }
+          .radioButton input[type=radio]{
+
+
+          }
       </style>
 
     <!-- Bootstrap core CSS -->
@@ -35,7 +55,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Crear usuario
+                        <a class="nav-link" href="/registrarUsuario">Registrar usuario
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -55,32 +75,29 @@
         <!-- Blog Entries Column -->
         <div class="registrarUsuarioContainer">
           <h1 class="my-4">Registrar Usuario</h1>
-            <form action="/" method="post">
+            <form action="/registrarNuevoUsuario" method="post">
                 <br>
                 Nombre<br>
                 <input name="nombre" type="text" required>
-                <br>
-                <br>
+
                 Nombre de Usuario<br>
                 <input name="username" type="text" required>
-                <br>
-                <br>
+
                 Contrasena<br>
                 <input name="password" type="password" required>
-                <br>
-                <br>
+
                 <div class="radioButton">
                     Permisos<br>
                     <br>
                     <label>Administrador
-                        <input type="radio" name="permisos"  checked>
+                        <input type="radio" name="isAdmin" checked>
                     </label>
                     <label>Autor
-                        <input type="radio" name="permisos">
+                        <input type="radio" name="isAutor">
                     </label>
                 </div>
                 <br>
-                <button name="registrarUsuario" type="submit">Registrar</button>
+                <button name="registrarUsuarioButton" type="submit">Registrar Usuario</button>
             </form>
             <br>
             <br>
