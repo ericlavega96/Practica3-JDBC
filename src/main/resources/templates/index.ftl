@@ -72,8 +72,8 @@
                   <a href="#" class="btn btn-primary">Read More &rarr;</a>
               </div>
               <div class="card-footer text-muted">
-                  Posted on January 1, 2017 by
-                  <a href="#">Start Bootstrap</a>
+                  Subido en el ${articulo.fechaText()} por
+                  <a href="#">${articulo.autor.nombre}</a>
               </div>
             </div>
           </#list>
