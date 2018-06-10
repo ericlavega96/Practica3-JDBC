@@ -23,25 +23,22 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <a class="navbar-brand" href="#">Blog de Artículos A&E</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="/">Inicio
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="/">Artículos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="/registrarse">Iniciar sesión</a>
             </li>
           </ul>
         </div>
@@ -85,13 +82,13 @@
 
           <!-- Comments Form -->
           <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
+            <h5 class="card-header">Deja un comentario:</h5>
             <div class="card-body">
               <form>
                 <div class="form-group">
                   <textarea class="form-control" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Comentar</button>
               </form>
             </div>
           </div>
@@ -142,12 +139,12 @@
 
           <!-- Search Widget -->
           <div class="card my-4">
-            <h5 class="card-header">Search</h5>
+            <h5 class="card-header">Búsqueda de Artículos</h5>
             <div class="card-body">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
+                <input type="text" class="form-control" placeholder="Buscar artículo...">
                 <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
+                  <button class="btn btn-secondary" type="button">Buscar</button>
                 </span>
               </div>
             </div>
@@ -155,32 +152,32 @@
 
           <!-- Categories Widget -->
           <div class="card my-4">
-            <h5 class="card-header">Categories</h5>
+            <h5 class="card-header">Categorías</h5>
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">Web Design</a>
+                      <a href="#">Ciencia</a>
                     </li>
                     <li>
-                      <a href="#">HTML</a>
+                      <a href="#">Naturaleza</a>
                     </li>
                     <li>
-                      <a href="#">Freebies</a>
+                      <a href="#">Noticias</a>
                     </li>
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">JavaScript</a>
+                      <a href="#">Actualidad</a>
                     </li>
                     <li>
-                      <a href="#">CSS</a>
+                      <a href="#">Historia</a>
                     </li>
                     <li>
-                      <a href="#">Tutorials</a>
+                      <a href="#">Fantasía</a>
                     </li>
                   </ul>
                 </div>

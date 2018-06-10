@@ -4,20 +4,26 @@
     <head>
         <title>${titulo}</title>
         <style>
+            html{
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
             /*Títulos de la página de login*/
             .titulo{
-                background-color: lightgray;
+                background-color: #495057;
                 text-align: center;
-                padding: 20px;
+                padding: 10px;
                 height: 50%;
-                width: 50%;
+                width: 40%;
                 margin: auto;
-                color:white;
-                border-radius: 50%;
+                color:#fff;
             }
             /*Contenido del formulario de login*/
             .loginContainer {
                 padding: 50px;
+                height: 30%;
+                width: 30%;
+                margin: auto;
+
             }
             /*Campos del formulario*/
             input[type=text], input[type=password] {
@@ -28,10 +34,10 @@
                 border: 1px solid #ccc;
                 box-sizing: border-box;
             }
-            /*Botón de registrarse*/
+            /*Botón de registrar*/
             button {
-                background-color: lightgreen;
-                color: black;
+                background-color: #007bff;
+                color: #fff;
                 padding: 12px 20px;
                 margin: 10px 0 ;
                 border: none;
@@ -46,8 +52,8 @@
     </head>
     <body>
     <div class="titulo">
-        <h1> A&E Blog de Artículos</h1>
-        <h2> Iniciar Sesión</h2>
+        <h1>Blog de Artículos A&E</h1>
+        <h3> Iniciar sesión</h3>
     </div>
     <form action="/procesarUsuario" method="post">
         <div class="loginContainer">
