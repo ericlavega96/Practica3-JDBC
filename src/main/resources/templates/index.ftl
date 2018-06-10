@@ -22,30 +22,27 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul>
+        <div class="container">
+            <a class="navbar-brand" href="/">Blog de Artículos A&E</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Inicio
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Artículos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registrarse">Iniciar sesión</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- Page Content -->
@@ -56,8 +53,8 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-          <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
+          <h1 class="my-4">Artículos
+            <small>Últimas publicaciones</small>
           </h1>
 
           <!-- Blog Post -->
@@ -69,7 +66,7 @@
                   <p class="card-text">
                       ${articulo.cuerpo}
                   </p>
-                  <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                  <a href="#" class="btn btn-primary">Leer más &rarr;</a>
               </div>
               <div class="card-footer text-muted">
                   Subido en el ${articulo.fechaText()} por
@@ -84,7 +81,7 @@
             <div class="card-body">
               <h2 class="card-title">Post Title</h2>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <a href="#" class="btn btn-primary">Leer Más&rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by
@@ -98,7 +95,7 @@
             <div class="card-body">
               <h2 class="card-title">Post Title</h2>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <a href="#" class="btn btn-primary">Leer Más &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by
@@ -122,52 +119,52 @@
         <div class="col-md-4">
 
           <!-- Search Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Search</h5>
-            <div class="card-body">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
+            <div class="card my-4">
+                <h5 class="card-header">Búsqueda de Artículos</h5>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar artículo...">
+                        <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button">Buscar</button>
                 </span>
-              </div>
+                    </div>
+                </div>
             </div>
-          </div>
 
           <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Categories</h5>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Web Design</a>
-                    </li>
-                    <li>
-                      <a href="#">HTML</a>
-                    </li>
-                    <li>
-                      <a href="#">Freebies</a>
-                    </li>
-                  </ul>
+            <div class="card my-4">
+                <h5 class="card-header">Tags</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a href="#">Ciencia</a>
+                                </li>
+                                <li>
+                                    <a href="#">Naturaleza</a>
+                                </li>
+                                <li>
+                                    <a href="#">Deporte</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a href="#">Actualidad</a>
+                                </li>
+                                <li>
+                                    <a href="#">Historia</a>
+                                </li>
+                                <li>
+                                    <a href="#">Fantasía</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </div>
 
           <!-- Side Widget -->
           <div class="card my-4">

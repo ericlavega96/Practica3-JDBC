@@ -23,7 +23,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Blog de Artículos A&E</a>
+          <a class="navbar-brand" href="/">Blog de Artículos A&E</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -151,39 +151,39 @@
           </div>
 
           <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Categorías</h5>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Ciencia</a>
-                    </li>
-                    <li>
-                      <a href="#">Naturaleza</a>
-                    </li>
-                    <li>
-                      <a href="#">Noticias</a>
-                    </li>
-                  </ul>
+            <div class="card my-4">
+                <h5 class="card-header">Tags</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a href="#">Ciencia</a>
+                                </li>
+                                <li>
+                                    <a href="#">Naturaleza</a>
+                                </li>
+                                <li>
+                                    <a href="#">Deporte</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a href="#">Actualidad</a>
+                                </li>
+                                <li>
+                                    <a href="#">Historia</a>
+                                </li>
+                                <li>
+                                    <a href="#">Fantasía</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Actualidad</a>
-                    </li>
-                    <li>
-                      <a href="#">Historia</a>
-                    </li>
-                    <li>
-                      <a href="#">Fantasía</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </div>
 
           <!-- Side Widget -->
           <div class="card my-4">
