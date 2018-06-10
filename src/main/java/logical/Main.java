@@ -32,11 +32,18 @@ public class Main {
 
         List<Articulo> articulos = new ArrayList<>();
         List<Comentario> comentarios = new ArrayList<>();
+        List<Etiqueta> tags = new ArrayList<>();
 
-        Articulo articulo = new Articulo(1, "prueba", "prueba prueba prueba",user,new Date(),comentarios, null);
+        tags.add(new Etiqueta(1, "deportes"));
+        tags.add(new Etiqueta(1, "moda"));
+
+        Articulo articulo = new Articulo(1, "prueba", "prueba prueba prueba",
+                user,new Date(),comentarios, tags);
         comentarios.add(new Comentario(1, "prueba prueba prueba", user, articulo));
-        comentarios.add(new Comentario(2, "probando uno dos tres", user, articulo));
+        comentarios.add(new Comentario(2, "probando uno dos tres", ericUser, articulo));
         articulos.add(articulo);
+
+        System.out.println(getAllTags(articulos));
 
         get("/registrarse", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
@@ -55,6 +62,8 @@ public class Main {
         get("/post", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("articulo", articulo);
+            attributes.put("tagsCol1", tagsColumnas(2,1,getAllTags(articulos)));
+            attributes.put("tagsCol2", tagsColumnas(2,2,getAllTags(articulos)));
             attributes.put("titulo", "Artículos A&E - Post");
             return new ModelAndView(attributes, "post.ftl");
         }, freeMarkerEngine);
@@ -85,5 +94,25 @@ public class Main {
             }
         }
         return usuarioRegistrado;
+    }
+
+    public static List<String> tagsColumnas(int numColum,int c, List<String> tags){
+        List<String> columnaTag = new ArrayList<>();
+        int halfSize = tags.size()/numColum;
+        for(int i = tags.size()*(c - 1); i < halfSize * c; i++){
+            columnaTag.add(tags.get(i));
+        }
+        return columnaTag;
+    }
+
+    public static List<String> getAllTags(List<Articulo> articulos){
+        List<String> tags = new ArrayList<>();
+
+        for(Articulo A : articulos)
+            for(Etiqueta E : A.getListaEtiquetas())
+                if(!tags.contains(E.tagsTransform()))
+                    tags.add(E.tagsTransform());
+
+        return tags;
     }
 }
