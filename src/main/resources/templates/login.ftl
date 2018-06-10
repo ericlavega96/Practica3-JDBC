@@ -49,17 +49,17 @@
         <h1> A&E Blog de Artículos</h1>
         <h2> Iniciar Sesión</h2>
     </div>
-    <form action="/procesarUsuario.flt" method="post">
+    <form action="/procesarUsuario" method="post">
         <div class="loginContainer">
-            <label><b>Nombre de suario</b></label>
-            <input type="text" placeholder="Introduzca su nombre de usuario" required>
+            <label><b>Nombre de usuario</b></label>
+            <input type="text" name="username" placeholder="Introduzca su nombre de usuario" required>
 
             <label><b>Contraseña</b></label>
-            <input type="password" placeholder="Introduzca su contraseña"  required>
+            <input type="password" name="password" placeholder="Introduzca su contraseña"  required>
 
             <button type="submit">Registrarse</button>
             <label>
-                <input type="checkbox" name="remember"> Recordarme
+                <input type="checkbox" name="recordar"> Recordarme
             </label>
         </div>
     </form>

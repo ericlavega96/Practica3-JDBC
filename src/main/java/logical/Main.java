@@ -38,7 +38,13 @@ public class Main {
         comentarios.add(new Comentario(2, "probando uno dos tres", user, articulo));
         articulos.add(articulo);
 
-        get("/inicio", (request, response) -> {
+        get("/registrarse", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Iniciar Sesión-Artículos A&E");
+            return new ModelAndView(attributes, "login.ftl");
+        }, freeMarkerEngine);
+
+        get("/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Página de artículos A&E");
             return new ModelAndView(attributes, "index.ftl");
@@ -52,29 +58,30 @@ public class Main {
             return new ModelAndView(attributes, "post.ftl");
         }, freeMarkerEngine);
 
-        post("/verificarUsuario/:username/:password", (request, response) -> {
+        post("/procesarUsuario", (request, response) -> {
             try {
                 String usernameAVerificar = request.queryParams("username");
                 String passwordsAVerificar = request.queryParams("password");
                 if(verificarUsuario(usernameAVerificar,passwordsAVerificar)){
-                    response.redirect("/listaEstudiantes");
-                }else{
                     response.redirect("/");
+                }else{
+                    response.redirect("/registrarse");
                 }
             } catch (Exception e) {
-                System.out.println("Error al intentar iniciar sesion " + e.toString());
+                System.out.println("Error al intentar iniciar sesión " + e.toString());
             }
             return "";
         });
-
     }
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;
+        System.out.println("Nombre Usuario Real: "+ nombreUsuario + " : " + password);
         for (Usuario usuario: misUsuarios){
-            if (usuario.getNombre() == nombreUsuario)
-                if (usuario.getPassword() == password)
+            System.out.println("Nombre Usuario: " + usuario.getUsername() + " : Password "+ usuario.getPassword());
+            if (usuario.getUsername().equals(nombreUsuario)  && usuario.getPassword().equals(password)){
                     usuarioRegistrado = true;
+            }
         }
         return usuarioRegistrado;
     }
