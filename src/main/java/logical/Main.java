@@ -29,13 +29,13 @@ public class Main {
         articulos.add(articulo);
 
 
-        get("/inicio", (request, response) -> {
+        get("/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Página de artículos A&E");
             return new ModelAndView(attributes, "index.ftl");
         }, freeMarkerEngine);
 
-        get("/post", (request, response) -> {
+        get("/cargarArticulo", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("articulo", articulo);
             attributes.put("comentarios", articulo.getListaComentarios());
