@@ -55,8 +55,6 @@ public class Main {
         get("/post", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("articulo", articulo);
-            attributes.put("fecha", articulo.fechaText());
-            attributes.put("comentarios", articulo.getListaComentarios());
             attributes.put("titulo", "Artículos A&E - Post");
             return new ModelAndView(attributes, "post.ftl");
         }, freeMarkerEngine);

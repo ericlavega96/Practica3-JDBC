@@ -65,7 +65,7 @@
           <hr>
 
           <!-- Date/Time -->
-          <p>${fecha}</p>
+          <p>${articulo.fechaText()}</p>
 
           <hr>
 
@@ -96,7 +96,7 @@
           <!-- Single Comment -->
 
 
-          <#list comentarios as comentario>
+          <#list articulo.listaComentarios as comentario>
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
