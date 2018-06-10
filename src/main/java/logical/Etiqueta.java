@@ -30,6 +30,6 @@ public class Etiqueta {
     }
 
     public String tagsTransform(){
-        return etiqueta.substring(0,0).toUpperCase() + etiqueta.substring(1).toLowerCase();
+        return etiqueta.substring(0,1).toUpperCase() + etiqueta.substring(1).toLowerCase();
     }
 }
