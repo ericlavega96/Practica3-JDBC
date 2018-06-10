@@ -16,5 +16,14 @@ gradle-app.setting
 *.iml
 *.iws
 
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
 node_modules
 
