@@ -138,28 +138,20 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Ciencia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Naturaleza</a>
-                                </li>
-                                <li>
-                                    <a href="#">Deporte</a>
-                                </li>
+                                <#list tagsCol1 as t1>
+                                    <li>
+                                        <a href="#">${t1}</a>
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Actualidad</a>
-                                </li>
-                                <li>
-                                    <a href="#">Historia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Fantasía</a>
-                                </li>
+                                <#list tagsCol2 as t2>
+                                    <li>
+                                        <a href="#">${t2}</a>
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                     </div>

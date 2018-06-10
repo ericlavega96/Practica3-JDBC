@@ -32,10 +32,16 @@ public class Main {
 
         List<Articulo> articulos = new ArrayList<>();
         List<Comentario> comentarios = new ArrayList<>();
+        List<Comentario> comentarios2 = new ArrayList<>();
         List<Etiqueta> tags = new ArrayList<>();
+        List<Etiqueta> tags2 = new ArrayList<>();
 
         tags.add(new Etiqueta(1, "deportes"));
-        tags.add(new Etiqueta(1, "moda"));
+        tags.add(new Etiqueta(2, "moda"));
+
+        tags2.add(new Etiqueta(1, "noticia"));
+        tags2.add(new Etiqueta(2, "negocios"));
+        tags2.add(new Etiqueta(2, "farándula"));
 
         Articulo articulo = new Articulo(1, "prueba", "prueba prueba prueba",
                 user,new Date(),comentarios, tags);
@@ -43,7 +49,12 @@ public class Main {
         comentarios.add(new Comentario(2, "probando uno dos tres", ericUser, articulo));
         articulos.add(articulo);
 
-        System.out.println(getAllTags(articulos));
+        Articulo articulo2 = new Articulo(2, "Segundo Articulo", "Conenido del segundo artículo. \n" +
+                "Segundo parrafo con contenido del artículo.",
+                ericUser,new Date(),comentarios2, tags2);
+        comentarios2.add(new Comentario(3, "Prueba #1", user, articulo));
+        comentarios2.add(new Comentario(4, "Segundo comentario.", ericUser, articulo));
+        articulos.add(articulo2);
 
         get("/registrarse", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
@@ -54,6 +65,8 @@ public class Main {
         get("/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Página de artículos A&E");
+            attributes.put("tagsCol1", tagsColumnas(2,1,getAllTags(articulos)));
+            attributes.put("tagsCol2", tagsColumnas(2,2,getAllTags(articulos)));
             attributes.put("articulos", articulos);
 
             return new ModelAndView(attributes, "index.ftl");
@@ -99,7 +112,7 @@ public class Main {
 
                 System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
 
-                Usuario nuevoUsuario = new Usuario(nombre,username,password,true,true);
+                Usuario nuevoUsuario = new Usuario(nombre,username,password, isAdmin.equals("on"),isAutor.endsWith("on"));
                 misUsuarios.add(nuevoUsuario);
 
                 response.redirect("/");
@@ -125,8 +138,13 @@ public class Main {
 
     public static List<String> tagsColumnas(int numColum,int c, List<String> tags){
         List<String> columnaTag = new ArrayList<>();
-        int halfSize = tags.size()/numColum;
-        for(int i = tags.size()*(c - 1); i < halfSize * c; i++){
+        int size = tags.size();
+        if(tags.size()%2!=0 && numColum>c)
+            size++;
+        int halfSizeLow = ((size/numColum))*(c - 1);
+        int halfSizeHigh = size/numColum*c;
+
+        for(int i = halfSizeLow; i < halfSizeHigh; i++){
             columnaTag.add(tags.get(i));
         }
         return columnaTag;
