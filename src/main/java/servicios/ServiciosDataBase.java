@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class ServiciosDataBase {
     private static ServiciosDataBase instancia;
-    private String URL = "jdbc:h2:tcp://localhost/~/pruebaTep"; //Modo Server...
+    private String URL = "jdbc:h2:tcp://localhost:9092/default";
 
 
     public ServiciosDataBase() {

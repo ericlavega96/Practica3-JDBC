@@ -8,6 +8,7 @@ import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
 import servicios.ServiciosBootStrap;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import static spark.Spark.get;
@@ -30,6 +31,14 @@ public class Main {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
         cfg.setClassForTemplateLoading(Main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(cfg);
+
+        ServiciosBootStrap database = new ServiciosBootStrap();
+
+        try {
+            database.crearTablas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         Usuario user = new Usuario("aavgc","Adonis", "1234", true, false);
         Usuario ericUser = new Usuario("ericlavega96","Eric", "1234", true, false);

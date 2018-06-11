@@ -13,14 +13,14 @@ public class ServiciosBootStrap {
 
     private static final String baseDeDatos = "jdbc:h2:tcp://localhost/~/practica3-JDBC";
     private static final String us = "admin";
-    private static final String psw = "";
+    private static final String psw = "1234";
 
 
     /**
      *
      * @throws SQLException
      */
-    public static void startDb() throws SQLException {
+    public void startDb() throws SQLException {
         Server.createTcpServer("-tcpPort", "9092", "-tcpAllowOthers").start();
     }
 
@@ -28,7 +28,7 @@ public class ServiciosBootStrap {
      *
      * @throws SQLException
      */
-    public static void stopDb() throws SQLException {
+    public void stopDb() throws SQLException {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
 
@@ -37,7 +37,7 @@ public class ServiciosBootStrap {
      * Metodo para recrear las tablas necesarios
      * @throws SQLException
      */
-    public static void crearTablas() throws  SQLException{
+    public void crearTablas() throws  SQLException{
 
         EjecutarQuery("create table if not exists Articulos\n" +
                 "  (\n" +
@@ -85,7 +85,7 @@ public class ServiciosBootStrap {
     }
 
 
-    private static void EjecutarQuery(String query)
+    public void EjecutarQuery(String query)
     {
         try
         {
