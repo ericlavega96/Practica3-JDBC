@@ -166,9 +166,9 @@ public class Main {
 
                 Usuario usuarioEditado = misUsuarios.get(Integer.parseInt(idUsuarioActual));
 
-                String nombre = request.queryParams("matricula");
-                String username = request.queryParams("nombre");
-                String password = request.queryParams("apellido");
+                String nombre = request.queryParams("nombre");
+                String username = request.queryParams("username");
+                String password = request.queryParams("password");
                 //Faltan los permisos
 
                 usuarioEditado.setNombre(nombre);
