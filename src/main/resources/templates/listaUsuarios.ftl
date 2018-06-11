@@ -28,7 +28,7 @@
               border: none;
               cursor: pointer;
               border-radius: 10%;
-           }
+          }
           a.button:hover{
               text-decoration: none;
               opacity: 0.8;

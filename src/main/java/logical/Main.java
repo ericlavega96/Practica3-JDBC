@@ -1,8 +1,12 @@
 package logical;
 
+
 import freemarker.template.Configuration;
+import servicios.ServiciosBootStrap;
 import spark.ModelAndView;
+import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
+import servicios.ServiciosBootStrap;
 
 import java.util.*;
 
@@ -16,6 +20,8 @@ public class Main {
     private static List<Usuario> misUsuarios = new ArrayList<>();
 
     private static String idUsuarioActual;
+
+
 
     public static void main(String[] args) {
 
@@ -87,7 +93,10 @@ public class Main {
             try {
                 String usernameAVerificar = request.queryParams("username");
                 String passwordsAVerificar = request.queryParams("password");
+                Usuario logUser = new Usuario();
                 if(verificarUsuario(usernameAVerificar,passwordsAVerificar)){
+                    request.session(true);
+                    request.session().attribute("usuario", logUser);
                     response.redirect("/");
                 }else{
                     response.redirect("/registrarse");
@@ -193,6 +202,15 @@ public class Main {
             response.redirect("/listaUsuarios");
             return "";
         });
+
+        get("/logout", (resquest, response) ->
+        {
+
+            Session ses = resquest.session(true);
+            ses.invalidate();
+            response.redirect("/");
+            return "";
+        });
     }
 
 
@@ -234,4 +252,6 @@ public class Main {
 
         return tags;
     }
+
+
 }

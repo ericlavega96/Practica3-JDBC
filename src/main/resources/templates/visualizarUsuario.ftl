@@ -34,6 +34,7 @@
               opacity: 0.8;
               color: whitesmoke;
           }
+
       </style>
 
     <!-- Bootstrap core CSS -->

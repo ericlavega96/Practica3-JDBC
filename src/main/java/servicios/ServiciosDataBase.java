@@ -10,9 +10,9 @@ public class ServiciosDataBase {
     private static ServiciosDataBase instancia;
     private String URL = "jdbc:h2:tcp://localhost/~/pruebaTep"; //Modo Server...
 
-    /**
-     *Implementando el patron Singleton
-     */
+
+    public ServiciosDataBase() {
+    }
 
     /**
      * Retornando la instancia.
