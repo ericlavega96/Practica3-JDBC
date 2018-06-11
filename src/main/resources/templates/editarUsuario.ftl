@@ -75,28 +75,44 @@
         <!-- Blog Entries Column -->
         <div class="registrarUsuarioContainer">
           <h1 class="my-4">Registrar Usuario</h1>
-            <form action="/registrarNuevoUsuario" method="post">
+            <form action="/salvarUsuarioEditado" method="post">
                 <br>
                 Nombre<br>
-                <input name="nombre" type="text" required>
+                <input name="nombre" type="text" value = ${usuario.nombre}>
 
                 Nombre de Usuario<br>
-                <input name="username" type="text" required>
+                <input name="username" type="text" value=${usuario.username}>
 
                 Contrasena<br>
-                <input name="password" type="password" required>
+                <input name="password" type="password" value=${usuario.password}>
 
                 <div class="radioButton">
                     Permisos<br>
+                <#if usuario.administrador>
+                    <label>Administrador
+                        <input type="radio" name="permisos" checked>
+                    </label>
+                    <label>Autor
+                        <input type="radio" name="permisos">
+                    </label>
+                <#elseif usuario.autor>
+                    <label>Administrador
+                        <input type="radio" name="permisos">
+                    </label>
+                    <label>Autor
+                        <input type="radio" name="permisos" checked>
+                    </label>
+                <#else>
                     <label>Administrador
                         <input type="radio" name="permisos">
                     </label>
                     <label>Autor
                         <input type="radio" name="permisos">
                     </label>
+                </#if>
                 </div>
                 <br>
-                <button name="registrarUsuarioButton" type="submit">Registrar Usuario</button>
+                <button name="editarUsuarioButton" type="submit">Salvar Cambios</button>
             </form>
             <br>
             <br>

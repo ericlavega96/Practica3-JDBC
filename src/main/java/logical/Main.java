@@ -15,6 +15,8 @@ public class Main {
 
     private static List<Usuario> misUsuarios = new ArrayList<>();
 
+    private static String idUsuarioActual;
+
     public static void main(String[] args) {
 
         staticFiles.location("/templates");
@@ -23,8 +25,8 @@ public class Main {
         cfg.setClassForTemplateLoading(Main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(cfg);
 
-        Usuario user = new Usuario("aavgc","Adonis", "1234", false, false);
-        Usuario ericUser = new Usuario("ericlavega96","Eric", "1234", false, false);
+        Usuario user = new Usuario("aavgc","Adonis", "1234", true, false);
+        Usuario ericUser = new Usuario("ericlavega96","Eric", "1234", true, false);
 
         misUsuarios.add(user);
         misUsuarios.add(ericUser);
@@ -110,21 +112,91 @@ public class Main {
                 String isAdmin = request.queryParams("isAdmin");
                 String isAutor = request.queryParams("isAutor");
 
-                System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
+                //System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
 
-                Usuario nuevoUsuario = new Usuario(nombre,username,password,
-                        !isAdmin.equals(null)||isAdmin.equals("on"),
-                        !isAutor.equals(null)||isAutor.endsWith("on"));
+                //Usuario nuevoUsuario = new Usuario(nombre,username,password,
+                //        !isAdmin.equals(null)||isAdmin.equals("on"),
+                //        !isAutor.equals(null)||isAutor.endsWith("on"));
+
+                Usuario nuevoUsuario = new Usuario(nombre,username,password,true,false);
                 misUsuarios.add(nuevoUsuario);
 
-                response.redirect("/");
+                response.redirect("/listaUsuarios");
 
             //} catch (Exception e) {
             //    System.out.println("Error al registrar un usuario " + e.toString());
             //}
             return "";
         });
+
+        get("/listaUsuarios", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Lista de Usuarios");
+            attributes.put("listaUsuarios",misUsuarios);
+            return new ModelAndView(attributes, "listaUsuarios.ftl");
+        }, freeMarkerEngine);
+
+        get("/visualizarUsuario/:id", (request, response) -> {
+
+            idUsuarioActual = request.params("id");
+            Usuario usuario = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Visualizar Usuario");
+            attributes.put("usuario", usuario);
+            attributes.put("idUsuario",idUsuarioActual);
+
+            return new ModelAndView(attributes, "visualizarUsuario.ftl");
+        }, freeMarkerEngine);
+
+        get("/editarUsuario/:id", (request, response) -> {
+
+            idUsuarioActual = request.params("id");
+            Usuario usuario = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Editar Usuario");
+            attributes.put("usuario", usuario);
+
+            return new ModelAndView(attributes, "editarUsuario.ftl");
+        }, freeMarkerEngine);
+
+        post("/salvarUsuarioEditado", (request, response) -> {
+            try {
+
+                Usuario usuarioEditado = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+
+                String nombre = request.queryParams("matricula");
+                String username = request.queryParams("nombre");
+                String password = request.queryParams("apellido");
+                //Faltan los permisos
+
+                usuarioEditado.setNombre(nombre);
+                usuarioEditado.setUsername(username);
+                usuarioEditado.setPassword(password);
+                usuarioEditado.setAdministrador(true);
+                usuarioEditado.setAutor(false);
+
+                response.redirect("/listaUsuarios");
+            } catch (Exception e) {
+                System.out.println("Error al editar al usuario: " + e.toString());
+            }
+            return "";
+        });
+
+        get("/eliminarUsuario/:id",(request, response) -> {
+
+            idUsuarioActual = request.params("id");
+
+            misUsuarios.remove(Integer.parseInt(idUsuarioActual));
+
+            response.redirect("/listaUsuarios");
+            return "";
+        });
     }
+
+
+
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;
