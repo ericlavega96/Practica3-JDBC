@@ -11,16 +11,11 @@ import java.util.ArrayList;
 
 public class ServiciosBootStrap {
 
-    private static final String baseDeDatos = "jdbc:h2:tcp://localhost/~/practica3-JDBC";
-    private static final String us = "admin";
-    private static final String psw = "1234";
-
-
     /**
      *
      * @throws SQLException
      */
-    public void startDb() throws SQLException {
+    public static void iniciarBD() throws SQLException {
         Server.createTcpServer("-tcpPort", "9092", "-tcpAllowOthers").start();
     }
 
@@ -28,78 +23,65 @@ public class ServiciosBootStrap {
      *
      * @throws SQLException
      */
-    public void stopDb() throws SQLException {
+    public static void detenetBD() throws SQLException {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
 
 
     /**
-     * Metodo para recrear las tablas necesarios
+     * Metodo para crear las tablas necesarias
      * @throws SQLException
      */
-    public void crearTablas() throws  SQLException{
+    public static void crearTablas() throws  SQLException{
 
-        EjecutarQuery("create table if not exists Articulos\n" +
+        String tablaUsuarios = "CREATE TABLE IF NOT EXISTS Usuarios\n" +
                 "  (\n" +
-                "    id bigint auto_increment PRIMARY KEY,\n" +
-                "    titulo varchar(100),\n" +
-                "    cuerpo CLOB,\n" +
-                "    autor varchar(1000),\n" +
-                "    fecha date,\n" +
-                "    FOREIGN KEY (autor) REFERENCES Usuarios(username)\n" +
-                "  )");
-
-        EjecutarQuery("create table if not exists Comentarios\n" +
-                "  (\n" +
-                "    id bigint auto_increment PRIMARY KEY,\n" +
-                "    comentario varchar(1000),\n" +
-                "    autor varchar(1000),\n" +
-                "    articulo bigint,\n" +
-                "    FOREIGN KEY (autor) REFERENCES Usuarios(username),\n" +
-                "    FOREIGN KEY (articulo) REFERENCES Articulos(id)\n" +
-                "  )");
-
-        EjecutarQuery("create table if not exists Etiquetas\n" +
-                "  (\n" +
-                "    id bigint auto_increment PRIMARY KEY,\n" +
-                "    etiqueta varchar(1000)\n" +
-                "  )");
-
-        EjecutarQuery("create table if not exists ArticulosEtiquetas\n" +
-                "  (\n" +
-                "    id bigint auto_increment PRIMARY KEY,\n" +
-                "    articulo bigint,\n" +
-                "    etiqueta bigint,\n" +
-                "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
-                "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
-                "  )");
-
-        EjecutarQuery("create table if not exists Usuarios\n" +
-                "  (\n" +
-                "    username varchar(1000) PRIMARY KEY,\n" +
-                "    nombre varchar(1000),\n" +
-                "    password varchar(1000),\n" +
+                "    username VARCHAR(1000) PRIMARY KEY,\n" +
+                "    nombre VARCHAR(1000),\n" +
+                "    password VARCHAR(1000),\n" +
                 "    administrador boolean,\n" +
                 "    autor boolean\n" +
-                "  )");
-    }
+                "  );";
 
+        String tablaArticulos = "CREATE TABLE IF NOT EXISTS Articulos\n" +
+                    "  (\n" +
+                    "    id bigint auto_increment PRIMARY KEY,\n" +
+                    "    titulo VARCHAR(100),\n" +
+                    "    cuerpo CLOB,\n" +
+                    "    autor VARCHAR(1000),\n" +
+                    "    fecha date,\n" +
+                    "    FOREIGN KEY (autor) REFERENCES Usuarios(username)\n" +
+                    "  );";
 
-    public void EjecutarQuery(String query)
-    {
-        try
-        {
-            Class.forName("org.h2.Driver");
-            Connection connection = DriverManager.getConnection(baseDeDatos, us, psw);
-            Statement statement = connection.createStatement();
+            String tablaComentarios = "CREATE TABLE IF NOT EXISTS Comentarios\n" +
+                    "  (\n" +
+                    "    id bigint auto_increment PRIMARY KEY,\n" +
+                    "    comentario VARCHAR(1000),\n" +
+                    "    autor VARCHAR(1000),\n" +
+                    "    articulo bigint,\n" +
+                    "    FOREIGN KEY (autor) REFERENCES Usuarios(username),\n" +
+                    "    FOREIGN KEY (articulo) REFERENCES Articulos(id)\n" +
+                    "  );";
 
-            statement.executeUpdate(query);
+            String tablaEtiquetas = "CREATE TABLE IF NOT EXISTS Etiquetas\n" +
+                    "  (\n" +
+                    "    id bigint auto_increment PRIMARY KEY,\n" +
+                    "    etiqueta VARCHAR(1000)\n" +
+                    "  );";
+
+            String tablaArticulosEtiquetas = "CREATE TABLE IF NOT EXISTS ArticulosEtiquetas\n" +
+                    "  (\n" +
+                    "    id bigint auto_increment PRIMARY KEY,\n" +
+                    "    articulo bigint,\n" +
+                    "    etiqueta bigint,\n" +
+                    "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
+                    "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
+                    "  );";
+
+            Connection con = ServiciosDataBase.getInstancia().getConexion();
+            Statement statement = con.createStatement();
+            statement.execute(tablaUsuarios + tablaArticulos + tablaComentarios + tablaEtiquetas + tablaArticulosEtiquetas);
             statement.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
     }
+
 }

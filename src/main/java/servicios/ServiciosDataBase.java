@@ -7,11 +7,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServiciosDataBase {
-    private static ServiciosDataBase instancia;
-    private String URL = "jdbc:h2:tcp://localhost:9092/default";
+    private static ServiciosDataBase blogDBInstancia;
+    private String URL = "jdbc:h2:tcp://localhost/~/blogDB";
 
 
-    public ServiciosDataBase() {
+    private  ServiciosDataBase(){
+        registrarDriver();
+    }
+
+    private void registrarDriver() {
+        try {
+            Class.forName("org.h2.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServiciosDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -19,9 +28,25 @@ public class ServiciosDataBase {
      * @return
      */
     public static ServiciosDataBase getInstancia(){
-        if(instancia==null){
-            instancia = new ServiciosDataBase();
+        if(blogDBInstancia==null){
+            blogDBInstancia = new ServiciosDataBase();
         }
-        return instancia;
+        return blogDBInstancia;
     }
+
+    public Connection getConexion() {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(URL, "sa", "");
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return con;
+    }
+
+    public void testConexion() {
+        getConexion();
+        System.out.println("Conexión realizado con exito...");
+    }
+
 }

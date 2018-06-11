@@ -2,11 +2,13 @@ package logical;
 
 
 import freemarker.template.Configuration;
+
 import servicios.ServiciosBootStrap;
+import servicios.ServiciosDataBase;
+
 import spark.ModelAndView;
 import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
-import servicios.ServiciosBootStrap;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -16,6 +18,7 @@ import static spark.Spark.post;
 
 import static spark.Spark.staticFiles;
 
+
 public class Main {
 
     private static List<Usuario> misUsuarios = new ArrayList<>();
@@ -23,8 +26,8 @@ public class Main {
     private static String idUsuarioActual;
 
 
+    public static void main(String[] args) throws SQLException{
 
-    public static void main(String[] args) {
 
         staticFiles.location("/templates");
 
@@ -32,19 +35,22 @@ public class Main {
         cfg.setClassForTemplateLoading(Main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(cfg);
 
-        ServiciosBootStrap database = new ServiciosBootStrap();
-
-        try {
-            database.crearTablas();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         Usuario user = new Usuario("aavgc","Adonis", "1234", true, false);
         Usuario ericUser = new Usuario("ericlavega96","Eric", "1234", true, false);
 
         misUsuarios.add(user);
         misUsuarios.add(ericUser);
+
+
+        //Pruebas conexion BD modo Server
+        ServiciosBootStrap.iniciarBD();
+
+        ServiciosDataBase.getInstancia().testConexion();
+
+        ServiciosBootStrap.crearTablas();
+
+        //ServiciosBootStrap.detenetBD();
 
 
         List<Articulo> articulos = new ArrayList<>();
