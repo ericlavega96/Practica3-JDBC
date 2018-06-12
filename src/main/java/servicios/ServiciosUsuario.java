@@ -722,4 +722,68 @@ public class ServiciosUsuario {
         return ok;
     }
 
+    public boolean crearAdmin(){
+
+        boolean ok = false;
+        Connection con = null;
+
+        if(!buscarAdmin()){
+            try {
+
+                String query = "insert into USUARIOS(USERNAME, NOMBRE, PASSWORD, ADMINISTRADOR, AUTOR) values(?,?,?,?,?)";
+                con = ServiciosDataBase.getInstancia().getConexion();
+                //
+                PreparedStatement prepareStatement = con.prepareStatement(query);
+                //Antes de ejecutar seteo los parametros.
+                prepareStatement.setString(1, "admin");
+                prepareStatement.setString(2, "admin");
+                prepareStatement.setString(3, "1234");
+                prepareStatement.setBoolean(4, true);
+                prepareStatement.setBoolean(5, false);
+                //
+                int fila = prepareStatement.executeUpdate();
+                ok = fila > 0 ;
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return ok;
+    }
+
+    public boolean buscarAdmin() {
+        boolean existe = false;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from USUARIOS where ADMINISTRADOR = TRUE";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                existe = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return existe;
+    }
+
 }
