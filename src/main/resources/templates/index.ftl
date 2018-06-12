@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Artículos</a>
+                        <a class="nav-link" href="/publicarArticulo">Publicar Artículo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/registrarse">Iniciar sesión</a>

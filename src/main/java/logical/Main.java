@@ -11,6 +11,8 @@ import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static spark.Spark.get;
@@ -220,10 +222,57 @@ public class Main {
 
         get("/logout", (resquest, response) ->
         {
-
             Session ses = resquest.session(true);
             ses.invalidate();
             response.redirect("/");
+            return "";
+        });
+
+        get("/publicarArticulo", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Publicar Artículo");
+            return new ModelAndView(attributes, "publicarArticulo.ftl");
+        }, freeMarkerEngine);
+
+        post("/procesarArticulo/:title/:cuerpo", (request, response) -> {
+
+            try {
+                /*
+                int idArticulo = 0;
+                String titulo = request.queryParams("titulo");
+                String cuerpo = request.queryParams("cuerpo");
+
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date();
+
+                Date fecha = new Date(dateFormat.format(date));
+
+                String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
+
+                List<Comentario> articuloComentarios = new ArrayList<>();
+
+                Articulo nuevoArticulo = new Articulo(idArticulo,titulo,cuerpo,misUsuarios.get(0),fecha,articuloComentarios,crearEtiquetas(articuloEtiquetas));
+
+                articulos.add(nuevoArticulo);
+
+
+                response.redirect("/");
+             */
+
+                String titulo = request.queryParams("title");
+                String cuerpo = request.queryParams("cuerpo");
+
+                List<Comentario> articuloComentarios = new ArrayList<>();
+                String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
+
+                Articulo nuevoArticulo = new Articulo(56,titulo,cuerpo,misUsuarios.get(0),new Date(),articuloComentarios,crearEtiquetas(articuloEtiquetas));
+                articulos.add(nuevoArticulo);
+
+                response.redirect("/");
+
+            } catch (Exception e) {
+                System.out.println("Error al intentar publicar articulo" + e.toString());
+            }
             return "";
         });
     }
@@ -266,6 +315,16 @@ public class Main {
                     tags.add(E.tagsTransform());
 
         return tags;
+    }
+
+    public static List<Etiqueta> crearEtiquetas(String[] etiquetas){
+        int i = 0;
+        List<Etiqueta> etiquetasList = new ArrayList<>();
+        for (String etiqueta : etiquetas ){
+            etiquetasList.add(new Etiqueta(i,etiqueta));
+            i++;
+        }
+        return etiquetasList;
     }
 
 
