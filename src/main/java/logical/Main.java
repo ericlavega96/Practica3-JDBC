@@ -61,27 +61,27 @@ public class Main {
         List<Etiqueta> tags = new ArrayList<>();
         List<Etiqueta> tags2 = new ArrayList<>();
 
-        tags.add(new Etiqueta(1, "deportes"));
-        tags.add(new Etiqueta(2, "moda"));
+        tags.add(new Etiqueta("deportes"));
+        tags.add(new Etiqueta("moda"));
 
-        tags2.add(new Etiqueta(1, "noticia"));
-        tags2.add(new Etiqueta(2, "negocios"));
-        tags2.add(new Etiqueta(2, "farándula"));
+        tags2.add(new Etiqueta("noticia"));
+        tags2.add(new Etiqueta("negocios"));
+        tags2.add(new Etiqueta("farándula"));
 
-        Articulo articulo = new Articulo(1, "prueba", "prueba prueba prueba",
+        Articulo articulo = new Articulo("prueba", "prueba prueba prueba",
                 user,new Date(),comentarios, tags);
-        comentarios.add(new Comentario(1, "prueba prueba prueba", user, articulo));
-        comentarios.add(new Comentario(2, "probando uno dos tres", ericUser, articulo));
+        comentarios.add(new Comentario("prueba prueba prueba", user, articulo));
+        comentarios.add(new Comentario("probando uno dos tres", ericUser, articulo));
         articulos.add(articulo);
 
-        Articulo articulo2 = new Articulo(2, "Segundo Articulo", "Conenido del segundo artículo. \n" +
+        Articulo articulo2 = new Articulo("Segundo Articulo", "Conenido del segundo artículo. \n" +
                 "Segundo parrafo con contenido del artículo.",
                 ericUser,new Date(),comentarios2, tags2);
-        comentarios2.add(new Comentario(3, "Prueba #1", user, articulo));
-        comentarios2.add(new Comentario(4, "Segundo comentario.", ericUser, articulo));
+        comentarios2.add(new Comentario("Prueba #1", user, articulo));
+        comentarios2.add(new Comentario("Segundo comentario.", ericUser, articulo));
         articulos.add(articulo2);
 
-        get("/registrarse", (request, response) -> {
+        get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Iniciar Sesión-Artículos A&E");
             return new ModelAndView(attributes, "login.ftl");
@@ -116,7 +116,7 @@ public class Main {
                     request.session().attribute("usuario", logUser);
                     response.redirect("/");
                 }else{
-                    response.redirect("/registrarse");
+                    response.redirect("/iniciarSesion");
                 }
             } catch (Exception e) {
                 System.out.println("Error al intentar iniciar sesión " + e.toString());
@@ -265,7 +265,7 @@ public class Main {
                 List<Comentario> articuloComentarios = new ArrayList<>();
                 String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
 
-                Articulo nuevoArticulo = new Articulo(56,titulo,cuerpo,misUsuarios.get(0),new Date(),articuloComentarios,crearEtiquetas(articuloEtiquetas));
+                Articulo nuevoArticulo = new Articulo(titulo,cuerpo,misUsuarios.get(0),new Date(),articuloComentarios,crearEtiquetas(articuloEtiquetas));
                 articulos.add(nuevoArticulo);
 
                 response.redirect("/");
@@ -282,9 +282,7 @@ public class Main {
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;
-        System.out.println("Nombre Usuario Real: "+ nombreUsuario + " : " + password);
         for (Usuario usuario: misUsuarios){
-            System.out.println("Nombre Usuario: " + usuario.getUsername() + " : Password "+ usuario.getPassword());
             if (usuario.getUsername().equals(nombreUsuario)  && usuario.getPassword().equals(password)){
                     usuarioRegistrado = true;
             }
@@ -321,7 +319,7 @@ public class Main {
         int i = 0;
         List<Etiqueta> etiquetasList = new ArrayList<>();
         for (String etiqueta : etiquetas ){
-            etiquetasList.add(new Etiqueta(i,etiqueta));
+            etiquetasList.add(new Etiqueta(etiqueta));
             i++;
         }
         return etiquetasList;

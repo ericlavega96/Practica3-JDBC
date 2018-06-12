@@ -20,8 +20,7 @@ public class Articulo {
 
     }
 
-    public Articulo(long id, String titulo, String cuerpo, Usuario autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiquetas) {
-        this.id = id;
+    public Articulo(String titulo, String cuerpo, Usuario autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiquetas) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.autor = autor;

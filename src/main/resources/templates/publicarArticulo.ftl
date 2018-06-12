@@ -76,6 +76,9 @@
                         <a class="nav-link" href="/">Artículos</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/gestionarUsuarios">Gestionar Usuarios</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/registrarse">Iniciar sesión</a>
                     </li>
                 </ul>
