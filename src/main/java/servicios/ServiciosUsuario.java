@@ -439,7 +439,7 @@ public class ServiciosUsuario {
         return ok;
     }
 
-    public boolean actualizarEstudiante(Usuario o){
+    public boolean actualizarUsuario(Usuario o){
         boolean ok =false;
 
         Connection con = null;
@@ -506,6 +506,35 @@ public class ServiciosUsuario {
         return ok;
     }
 
+    public boolean borrarUsuario(String key){
+        boolean ok = false;
+
+        Connection con = null;
+        try {
+
+            String query = "delete from USUARIOS where USERNAME = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+            //
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+
+            //Indica el where...
+            prepareStatement.setString(1, key);
+            //
+            int fila = prepareStatement.executeUpdate();
+            ok = fila > 0 ;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ok;
+    }
 
 
 
