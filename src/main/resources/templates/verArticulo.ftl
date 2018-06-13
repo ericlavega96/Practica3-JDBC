@@ -29,20 +29,35 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Inicio
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/">Artículos</a>
-            </li>
-            <li class="nav-item">
-                  <a class="nav-link" href="/gestionarUsuarios">Gestionar Usuarios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/registrarse">Iniciar sesión</a>
-            </li>
+                  <li class="nav-item active">
+                      <a class="nav-link" href="/">Inicio
+                          <span class="sr-only">(current)</span>
+                      </a>
+                  </li>
+                <#if logUser??>
+                    <#if logUser.administrador || logUser.autor>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/publicarArticulo">Artículos</a>
+                        </li>
+                    </#if>
+                </#if>
+
+                <#if logUser??>
+                    <#if logUser.administrador>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/listaUsuarios">Gestionar Usuarios</a>
+                        </li>
+                    </#if>
+                </#if>
+                <#if logUser??>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Cerrar sesión</a>
+                    </li>
+                <#else>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/iniciarSesion">Iniciar sesión</a>
+                    </li>
+                </#if>
           </ul>
         </div>
       </div>

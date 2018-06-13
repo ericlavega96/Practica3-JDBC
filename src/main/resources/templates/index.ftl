@@ -34,15 +34,30 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/publicarArticulo">Artículos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/gestionarUsuarios">Gestionar Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/iniciarSesion">Iniciar sesión</a>
-                    </li>
+                    <#if logUser??>
+                        <#if logUser.administrador || logUser.autor>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/publicarArticulo">Artículos</a>
+                            </li>
+                        </#if>
+                    </#if>
+
+                    <#if logUser??>
+                        <#if logUser.administrador>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/listaUsuarios">Gestionar Usuarios</a>
+                            </li>
+                        </#if>
+                    </#if>
+                    <#if logUser??>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Cerrar sesión</a>
+                        </li>
+                    <#else>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/iniciarSesion">Iniciar sesión</a>
+                        </li>
+                    </#if>
                 </ul>
             </div>
         </div>
