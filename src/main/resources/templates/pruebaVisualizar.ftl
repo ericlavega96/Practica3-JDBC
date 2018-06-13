@@ -10,29 +10,29 @@
 
     <title>${titulo}</title>
       <style>
-          .registrarUsuarioContainer{
+          .tablaContainer{
               margin: auto;
           }
-          button {
+          table{
+              width: 100%;
+          }
+          th, td {
+              text-align: left;
+              width: auto;
+          }
+          a.button {
               background-color: #007bff;
               color: #fff;
-              padding: 12px 20px;
+              width: 100%;
               margin: 10px 0 ;
               border: none;
               cursor: pointer;
-              width: 100%;
+              border-radius: 10%;
           }
-          input[type=text], input[type=password]{
-              width: 100%;
-              border: 1px solid #ccc;
-              box-sizing: border-box;
-              padding: 5px 5px;
-              margin: 10px 0;
-          }
-          input[type=radio]{
-              margin:auto;
-              margin-right: 40px;
-              margin-top: 20px;
+          a.button:hover{
+              text-decoration: none;
+              opacity: 0.8;
+              color: whitesmoke;
           }
       </style>
 
@@ -45,6 +45,7 @@
   </head>
 
   <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
@@ -69,38 +70,42 @@
 
     <!-- Page Content -->
     <div class="container">
-
-      <div class="row">
-
+		<div class="row">
         <!-- Blog Entries Column -->
-        <div class="registrarUsuarioContainer">
-          <h1 class="my-4">Registrar Usuario</h1>
-            <form action="/registrarNuevoUsuario" method="post">
-                Nombre<br>
-                <input name="nombre" type="text" required>
-
-                Nombre de Usuario<br>
-                <input name="username" type="text" required readonly>
-
-                Contrasena<br>
-                <input name="password" type="password" required>
-
-                <div class="radioButton">
-                    Permisos<br>
-                    <label>Administrador
-                        <input type="radio" name="permisos">
-                    </label>
-                    <label>Autor
-                        <input type="radio" name="permisos">
-                    </label>
-                </div>
-                <br>
-                <button name="registrarUsuarioButton" type="submit">Registrar Usuario</button>
-            </form>
-            <br>
-            <br>
-        </div>
-      </div>
+			<div class="tablaContainer">
+				<h1 class="my-4">Visualizar Usuario</h1>
+				<table>
+					<tr>
+						<th>Nombre:</th>
+						<td>${usuario.nombre}</td>
+					</tr>
+					<tr>
+						<th>Nombre de Usuario:</th>
+						<td>${usuario.username}</td>
+					</tr>
+					<tr>
+						<th>Contrasena:</th>
+						<td>${usuario.password}</td>
+					</tr>
+					<tr>
+						<th>Permiso:</th>
+						<#if usuario.administrador>
+							<td>Administrador</td>
+						<#elseif usuario.autor>
+							<td>Autor</td>
+						<#else>
+							<td>Ninguno</td>
+						</#if>
+					</tr>
+					<tr>
+						<td><a href="/editarUsuario/${usuario.username}" class="button">Editar</a></td>
+						<td><a href="/eliminarUsuario/${usuario.username}" class="button">Eliminar</a></td>
+					</tr>
+				</table>
+				<br>
+				<br>
+			</div>
+		</div>
     </div>
     <footer class="py-5 bg-dark">
       <div class="container">

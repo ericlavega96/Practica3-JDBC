@@ -10,8 +10,15 @@
 
     <title>${titulo}</title>
       <style>
-          .registrarUsuarioContainer{
+          .tablaContainer{
               margin: auto;
+          }
+          table{
+              width: 100%;
+          }
+          th, td {
+              text-align: left;
+              width: auto;
           }
           button {
               background-color: #007bff;
@@ -45,6 +52,7 @@
   </head>
 
   <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
@@ -69,38 +77,53 @@
 
     <!-- Page Content -->
     <div class="container">
-
-      <div class="row">
-
+		<div class="row">
         <!-- Blog Entries Column -->
-        <div class="registrarUsuarioContainer">
-          <h1 class="my-4">Registrar Usuario</h1>
-            <form action="/registrarNuevoUsuario" method="post">
-                Nombre<br>
-                <input name="nombre" type="text" required>
+			<div class="tablaContainer">
+				<h1 class="my-4">Editar Usuario</h1>
+                <form action="/salvarUsuarioEditado" method="post">
+                    Nombre<br>
+                    <input name="nombre" type="text" value = ${usuario.nombre}>
 
-                Nombre de Usuario<br>
-                <input name="username" type="text" required readonly>
+                    Nombre de Usuario<br>
+                    <input name="username" type="text" readonly value=${usuario.username}>
 
-                Contrasena<br>
-                <input name="password" type="password" required>
+                    Contrasena<br>
+                    <input name="password" type="password" value=${usuario.password}>
 
-                <div class="radioButton">
-                    Permisos<br>
-                    <label>Administrador
-                        <input type="radio" name="permisos">
-                    </label>
-                    <label>Autor
-                        <input type="radio" name="permisos">
-                    </label>
-                </div>
+
+                    <div class="radioButton">
+                        Permisos<br>
+                    <#if usuario.administrador>
+                        <label>Administrador
+                            <input type="radio" name="permisos" checked>
+                        </label>
+                        <label>Autor
+                            <input type="radio" name="permisos">
+                        </label>
+                    <#elseif usuario.autor>
+                        <label>Administrador
+                            <input type="radio" name="permisos">
+                        </label>
+                        <label>Autor
+                            <input type="radio" name="permisos" checked>
+                        </label>
+                    <#else>
+                        <label>Administrador
+                            <input type="radio" name="permisos">
+                        </label>
+                        <label>Autor
+                            <input type="radio" name="permisos">
+                        </label>
+                    </#if>
+                    </div>
+                    <br>
+                    <button name="editarUsuarioButton" type="submit">Salvar Cambios</button>
+                </form>
                 <br>
-                <button name="registrarUsuarioButton" type="submit">Registrar Usuario</button>
-            </form>
-            <br>
-            <br>
-        </div>
-      </div>
+                <br>
+			</div>
+		</div>
     </div>
     <footer class="py-5 bg-dark">
       <div class="container">

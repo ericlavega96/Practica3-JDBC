@@ -314,7 +314,22 @@ public class Main {
             return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
+        get("/pruebaVisualizar", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Visualizar Usuario");
+            attributes.put("usuario", misUsuarios.get(0));
+            return new ModelAndView(attributes, "pruebaVisualizar.ftl");
+        }, freeMarkerEngine);
+
+        get("/pruebaEditar", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Editar Usuario");
+            attributes.put("usuario", misUsuarios.get(0));
+            return new ModelAndView(attributes, "pruebaEditar.ftl");
+        }, freeMarkerEngine);
+
     }
+
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;
