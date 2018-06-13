@@ -91,10 +91,11 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select e.ID, e.ETIQUETA from ETIQUETAS e, ARTICULOSETIQUETAS ae where ae.ETIQUETA = e.ID AND ae.ARTICULO == " + art.getId();
+            String query = "select e.ID, e.ETIQUETA from ETIQUETAS e, ARTICULOSETIQUETAS ae where ae.ETIQUETA = e.ID AND ae.ARTICULO = ?";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, art.getId());
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Etiqueta o = new Etiqueta();
@@ -122,10 +123,11 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from COMENTARIOS where ARTICULO ==" + art.getId();
+            String query = "select * from COMENTARIOS where ARTICULO = ?";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, art.getId());
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Comentario o = new Comentario();
@@ -154,10 +156,11 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select u.USERNAME, u.NOMBRE, u.PASSWORD, u.ADMINISTRADOR, u.AUTOR from USUARIOS u, COMENTARIOS c where c.ID = " + cmt.getId() + " AND u.USERNAME = c.AUTOR";
+            String query = "select u.USERNAME, u.NOMBRE, u.PASSWORD, u.ADMINISTRADOR, u.AUTOR from USUARIOS u, COMENTARIOS c where c.ID = ? AND u.USERNAME = c.AUTOR";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, cmt.getId());
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 comentador.setUsername(rs.getString("u.USERNAME"));
@@ -216,10 +219,11 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from USUARIOS where  AUTOR =" + art.getId();
+            String query = "select * from USUARIOS where  AUTOR =?";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, art.getId());
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 autor.setUsername(rs.getString("USERNAME"));
@@ -248,10 +252,13 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from USUARIOS where USERNAME = " + username + " AND PASSWORD = " + password;
+            String query = "select * from USUARIOS where USERNAME = ? AND PASSWORD = ?";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setString(1, username);
+            prepareStatement.setString(2, password);
+
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 user = new Usuario();

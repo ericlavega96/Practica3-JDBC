@@ -6,6 +6,7 @@ import freemarker.template.Configuration;
 import servicios.ServiciosBootStrap;
 import servicios.ServiciosDataBase;
 
+import servicios.ServiciosUsuario;
 import spark.ModelAndView;
 import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -52,6 +53,8 @@ public class Main {
 
         ServiciosBootStrap.crearTablas();
 
+        ServiciosUsuario SU = new ServiciosUsuario();
+        SU.crearAdmin();
         //ServiciosBootStrap.detenetBD();
 
 
@@ -88,8 +91,14 @@ public class Main {
         }, freeMarkerEngine);
 
         get("/", (request, response) -> {
+            Usuario logUser = request.session(true).attribute("usuario");
+            if(logUser == null)
+                System.out.println("No login");
+            else
+                System.out.println("El usuario " + logUser.getUsername() + " se ha logueado");
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Página de artículos A&E");
+            attributes.put("logUser", logUser);
             attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
             attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
             attributes.put("articulos", articulos);
@@ -99,7 +108,10 @@ public class Main {
 
         get("/post", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            Usuario logUser = request.session(true).attribute("usuario");
+
             attributes.put("articulo", articulo);
+            attributes.put("logUser", logUser);
             attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
             attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
             attributes.put("titulo", "Artículos A&E - Post");
@@ -110,12 +122,13 @@ public class Main {
             try {
                 String usernameAVerificar = request.queryParams("username");
                 String passwordsAVerificar = request.queryParams("password");
-                Usuario logUser = new Usuario();
-                if (verificarUsuario(usernameAVerificar, passwordsAVerificar)) {
+                Usuario logUser = SU.buscarUsuario(usernameAVerificar,passwordsAVerificar);
+                if (logUser != null) {
                     request.session(true);
                     request.session().attribute("usuario", logUser);
                     response.redirect("/");
                 } else {
+                    System.out.println(logUser);
                     response.redirect("/iniciarSesion");
                 }
             } catch (Exception e) {
@@ -126,7 +139,9 @@ public class Main {
 
         get("/gestionarUsuarios", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Gestion de Usuarios-Artículos A&E");
+            attributes.put("logUser", logUser);
             return new ModelAndView(attributes, "usuariosIndex.ftl");
         }, freeMarkerEngine);
 
@@ -146,6 +161,7 @@ public class Main {
 
             Usuario nuevoUsuario = new Usuario(nombre, username, password, true, false);
             misUsuarios.add(nuevoUsuario);
+            SU.crearUsuario(nuevoUsuario);
 
             response.redirect("/listaUsuarios");
 
@@ -157,19 +173,23 @@ public class Main {
 
         get("/listaUsuarios", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            List<Usuario> usuariosEncontrados = SU.listaUsuario();
             attributes.put("titulo", "Lista de Usuarios");
-            attributes.put("listaUsuarios", misUsuarios);
+            attributes.put("listaUsuarios", usuariosEncontrados);
             return new ModelAndView(attributes, "listaUsuarios.ftl");
         }, freeMarkerEngine);
 
         get("/visualizarUsuario/:id", (request, response) -> {
 
             idUsuarioActual = request.params("id");
-            Usuario usuario = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+            List<Usuario> usuariosEncontrados = SU.listaUsuario();
+            Usuario logUser = request.session(true).attribute("usuario");
+            Usuario usuario = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
 
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Visualizar Usuario");
             attributes.put("usuario", usuario);
+            attributes.put("logUser", logUser);
             attributes.put("idUsuario", idUsuarioActual);
 
             return new ModelAndView(attributes, "visualizarUsuario.ftl");
@@ -178,10 +198,13 @@ public class Main {
         get("/editarUsuario/:id", (request, response) -> {
 
             idUsuarioActual = request.params("id");
-            Usuario usuario = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+            List<Usuario> usuariosEncontrados = SU.listaUsuario();
+            Usuario logUser = request.session(true).attribute("usuario");
+            Usuario usuario = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
 
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Editar Usuario");
+            attributes.put("logUser", logUser);
             attributes.put("usuario", usuario);
 
             return new ModelAndView(attributes, "editarUsuario.ftl");
@@ -230,7 +253,9 @@ public class Main {
 
         get("/publicarArticulo", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Publicar Artículo");
+            attributes.put("logUser", logUser);
             System.out.println("Mostrar formulario del articulo");
             return new ModelAndView(attributes, "publicarArticulo.ftl");
         }, freeMarkerEngine);
@@ -283,7 +308,9 @@ public class Main {
 
         get("/leerArticuloCompleto", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Artículo");
+            attributes.put("logUser", logUser);
             return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
