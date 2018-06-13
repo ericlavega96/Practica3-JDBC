@@ -41,7 +41,7 @@
                         <a class="nav-link" href="/gestionarUsuarios">Gestionar Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/inciarSesion">Iniciar sesión</a>
+                        <a class="nav-link" href="/iniciarSesion">Iniciar sesión</a>
                     </li>
                 </ul>
             </div>
@@ -69,7 +69,7 @@
                   <p class="card-text">
                       ${articulo.cuerpo}
                   </p>
-                  <a href="#" class="btn btn-primary">Leer más &rarr;</a>
+                  <a href="/leerArticuloCompleto" class="btn btn-primary">Leer más &rarr;</a>
               </div>
               <div class="card-footer text-muted">
                   Subido en ${articulo.fechaText()} por
@@ -84,7 +84,7 @@
             <div class="card-body">
               <h2 class="card-title">Post Title</h2>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Leer Más&rarr;</a>
+              <a href="/leerArticuloCompleto" class="btn btn-primary">Leer Más&rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by
@@ -98,7 +98,7 @@
             <div class="card-body">
               <h2 class="card-title">Post Title</h2>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Leer Más &rarr;</a>
+              <a href="/leerArticuloCompleto" class="btn btn-primary">Leer Más &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by

@@ -28,7 +28,7 @@ public class Main {
     private static String idUsuarioActual;
 
 
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args) throws SQLException {
 
 
         staticFiles.location("/templates");
@@ -38,8 +38,8 @@ public class Main {
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(cfg);
 
 
-        Usuario user = new Usuario("aavgc","Adonis", "1234", true, false);
-        Usuario ericUser = new Usuario("ericlavega96","Eric", "1234", true, false);
+        Usuario user = new Usuario("aavgc", "Adonis", "1234", true, false);
+        Usuario ericUser = new Usuario("ericlavega96", "Eric", "1234", true, false);
 
         misUsuarios.add(user);
         misUsuarios.add(ericUser);
@@ -69,14 +69,14 @@ public class Main {
         tags2.add(new Etiqueta("farándula"));
 
         Articulo articulo = new Articulo("prueba", "prueba prueba prueba",
-                user,new Date(),comentarios, tags);
+                user, new Date(), comentarios, tags);
         comentarios.add(new Comentario("prueba prueba prueba", user, articulo));
         comentarios.add(new Comentario("probando uno dos tres", ericUser, articulo));
         articulos.add(articulo);
 
         Articulo articulo2 = new Articulo("Segundo Articulo", "Conenido del segundo artículo. \n" +
                 "Segundo parrafo con contenido del artículo.",
-                ericUser,new Date(),comentarios2, tags2);
+                ericUser, new Date(), comentarios2, tags2);
         comentarios2.add(new Comentario("Prueba #1", user, articulo));
         comentarios2.add(new Comentario("Segundo comentario.", ericUser, articulo));
         articulos.add(articulo2);
@@ -90,8 +90,8 @@ public class Main {
         get("/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Página de artículos A&E");
-            attributes.put("tagsCol1", tagsColumnas(2,1,getAllTags(articulos)));
-            attributes.put("tagsCol2", tagsColumnas(2,2,getAllTags(articulos)));
+            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
+            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
             attributes.put("articulos", articulos);
 
             return new ModelAndView(attributes, "index.ftl");
@@ -100,10 +100,10 @@ public class Main {
         get("/post", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("articulo", articulo);
-            attributes.put("tagsCol1", tagsColumnas(2,1,getAllTags(articulos)));
-            attributes.put("tagsCol2", tagsColumnas(2,2,getAllTags(articulos)));
+            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
+            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
             attributes.put("titulo", "Artículos A&E - Post");
-            return new ModelAndView(attributes, "post.ftl");
+            return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
         post("/procesarUsuario", (request, response) -> {
@@ -111,11 +111,11 @@ public class Main {
                 String usernameAVerificar = request.queryParams("username");
                 String passwordsAVerificar = request.queryParams("password");
                 Usuario logUser = new Usuario();
-                if(verificarUsuario(usernameAVerificar,passwordsAVerificar)){
+                if (verificarUsuario(usernameAVerificar, passwordsAVerificar)) {
                     request.session(true);
                     request.session().attribute("usuario", logUser);
                     response.redirect("/");
-                }else{
+                } else {
                     response.redirect("/iniciarSesion");
                 }
             } catch (Exception e) {
@@ -131,23 +131,23 @@ public class Main {
         }, freeMarkerEngine);
 
         post("/registrarNuevoUsuario", (request, response) -> {
-           // try {
-                String nombre = request.queryParams("nombre");
-                String username = request.queryParams("username");
-                String password = request.queryParams("password");
-                String isAdmin = request.queryParams("isAdmin");
-                String isAutor = request.queryParams("isAutor");
+            // try {
+            String nombre = request.queryParams("nombre");
+            String username = request.queryParams("username");
+            String password = request.queryParams("password");
+            String isAdmin = request.queryParams("isAdmin");
+            String isAutor = request.queryParams("isAutor");
 
-                //System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
+            //System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
 
-                //Usuario nuevoUsuario = new Usuario(nombre,username,password,
-                //        !isAdmin.equals(null)||isAdmin.equals("on"),
-                //        !isAutor.equals(null)||isAutor.endsWith("on"));
+            //Usuario nuevoUsuario = new Usuario(nombre,username,password,
+            //        !isAdmin.equals(null)||isAdmin.equals("on"),
+            //        !isAutor.equals(null)||isAutor.endsWith("on"));
 
-                Usuario nuevoUsuario = new Usuario(nombre,username,password,true,false);
-                misUsuarios.add(nuevoUsuario);
+            Usuario nuevoUsuario = new Usuario(nombre, username, password, true, false);
+            misUsuarios.add(nuevoUsuario);
 
-                response.redirect("/listaUsuarios");
+            response.redirect("/listaUsuarios");
 
             //} catch (Exception e) {
             //    System.out.println("Error al registrar un usuario " + e.toString());
@@ -158,7 +158,7 @@ public class Main {
         get("/listaUsuarios", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Lista de Usuarios");
-            attributes.put("listaUsuarios",misUsuarios);
+            attributes.put("listaUsuarios", misUsuarios);
             return new ModelAndView(attributes, "listaUsuarios.ftl");
         }, freeMarkerEngine);
 
@@ -170,7 +170,7 @@ public class Main {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Visualizar Usuario");
             attributes.put("usuario", usuario);
-            attributes.put("idUsuario",idUsuarioActual);
+            attributes.put("idUsuario", idUsuarioActual);
 
             return new ModelAndView(attributes, "visualizarUsuario.ftl");
         }, freeMarkerEngine);
@@ -210,7 +210,7 @@ public class Main {
             return "";
         });
 
-        get("/eliminarUsuario/:id",(request, response) -> {
+        get("/eliminarUsuario/:id", (request, response) -> {
 
             idUsuarioActual = request.params("id");
 
@@ -231,54 +231,63 @@ public class Main {
         get("/publicarArticulo", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Publicar Artículo");
+            System.out.println("Mostrar formulario del articulo");
             return new ModelAndView(attributes, "publicarArticulo.ftl");
         }, freeMarkerEngine);
 
-        post("/procesarArticulo/:title/:cuerpo", (request, response) -> {
+       /* post("/procesarArticulo", (request, response) -> {
+            System.out.println("Entró al post");
 
             try {
-                /*
-                int idArticulo = 0;
-                String titulo = request.queryParams("titulo");
-                String cuerpo = request.queryParams("cuerpo");
-
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = new Date();
-
-                Date fecha = new Date(dateFormat.format(date));
-
-                String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
-
-                List<Comentario> articuloComentarios = new ArrayList<>();
-
-                Articulo nuevoArticulo = new Articulo(idArticulo,titulo,cuerpo,misUsuarios.get(0),fecha,articuloComentarios,crearEtiquetas(articuloEtiquetas));
-
-                articulos.add(nuevoArticulo);
-
-
-                response.redirect("/");
-             */
-
                 String titulo = request.queryParams("title");
+                System.out.println("Entro en 1 " + titulo);
                 String cuerpo = request.queryParams("cuerpo");
-
+                System.out.println("Entro en 2" + cuerpo);
                 List<Comentario> articuloComentarios = new ArrayList<>();
                 String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
+                System.out.println("Entro en 3" + articuloEtiquetas);
 
                 Articulo nuevoArticulo = new Articulo(titulo,cuerpo,misUsuarios.get(0),new Date(),articuloComentarios,crearEtiquetas(articuloEtiquetas));
+                System.out.println("Se anadió el articulo");
                 articulos.add(nuevoArticulo);
-
-                response.redirect("/");
+                System.out.println("Funciono!");
 
             } catch (Exception e) {
                 System.out.println("Error al intentar publicar articulo" + e.toString());
             }
+            response.redirect("/");
+            System.out.println("Redirecciona...");
             return "";
         });
     }
+    */
+        post("/procesarArticulo/", (request, response) -> {
+            try {
+                String titulo = request.queryParams("title");
+                String cuerpo = request.queryParams("cuerpo");
+                Usuario autor = misUsuarios.get(0);
+                Date fecha = new Date();
+                List<Comentario> articuloComentarios = new ArrayList<>();
+                String[] etiquetas = request.queryParams("etiquetas").split(",");
+                List<Etiqueta> articuloEtiquetas = crearEtiquetas(etiquetas);
+
+                Articulo nuevoArticulo = new Articulo(titulo,cuerpo,autor,fecha,articuloComentarios,articuloEtiquetas);
+
+                response.redirect("/");
+            } catch (Exception e) {
+                System.out.println("Error al publicar artículo: " + e.toString());
+            }
+            return "";
+        });
 
 
+        get("/leerArticuloCompleto", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Artículo");
+            return new ModelAndView(attributes, "verArticulo.ftl");
+        }, freeMarkerEngine);
 
+    }
 
     public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;

@@ -29,9 +29,10 @@
               padding: 5px 5px;
               margin: 10px 0;
           }
-          .radioButton input[type=radio]{
-
-
+          input[type=radio]{
+              margin:auto;
+              margin-right: 40px;
+              margin-top: 20px;
           }
       </style>
 
@@ -44,7 +45,6 @@
   </head>
 
   <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
