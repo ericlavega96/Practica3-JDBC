@@ -213,7 +213,8 @@ public class Main {
         post("/salvarUsuarioEditado", (request, response) -> {
             try {
 
-                Usuario usuarioEditado = misUsuarios.get(Integer.parseInt(idUsuarioActual));
+                List<Usuario> usuariosEncontrados = SU.listaUsuario();
+                Usuario usuarioEditado = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
 
                 String nombre = request.queryParams("nombre");
                 String username = request.queryParams("username");
@@ -225,7 +226,7 @@ public class Main {
                 usuarioEditado.setPassword(password);
                 usuarioEditado.setAdministrador(true);
                 usuarioEditado.setAutor(false);
-
+                SU.actualizarUsuario(usuarioEditado);
                 response.redirect("/listaUsuarios");
             } catch (Exception e) {
                 System.out.println("Error al editar al usuario: " + e.toString());
@@ -236,7 +237,7 @@ public class Main {
         get("/eliminarUsuario/:id", (request, response) -> {
 
             idUsuarioActual = request.params("id");
-
+            SU.borrarUsuario(idUsuarioActual);
             misUsuarios.remove(Integer.parseInt(idUsuarioActual));
 
             response.redirect("/listaUsuarios");
@@ -286,7 +287,7 @@ public class Main {
         });
     }
     */
-        post("/procesarArticulo/", (request, response) -> {
+        post("/procesarArticulo", (request, response) -> {
             try {
                 String titulo = request.queryParams("title");
                 String cuerpo = request.queryParams("cuerpo");
@@ -331,7 +332,7 @@ public class Main {
     }
 
 
-    public static boolean verificarUsuario(String nombreUsuario,String password){
+    /*public static boolean verificarUsuario(String nombreUsuario,String password){
         boolean usuarioRegistrado = false;
         for (Usuario usuario: misUsuarios){
             if (usuario.getUsername().equals(nombreUsuario)  && usuario.getPassword().equals(password)){
@@ -339,7 +340,7 @@ public class Main {
             }
         }
         return usuarioRegistrado;
-    }
+    }*/
 
     public static List<String> tagsColumnas(int numColum,int c, List<String> tags){
         List<String> columnaTag = new ArrayList<>();
