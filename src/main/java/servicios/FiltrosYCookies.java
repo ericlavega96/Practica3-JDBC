@@ -71,12 +71,12 @@ public class FiltrosYCookies {
             }
         });
 
-        get("/crearCookie/:nombreCookie/:valor", (request, response)->{
+        /*get("/crearCookie/:nombreCookie/:valor", (request, response)->{
             //creando cookie en para un minuto
-            response.cookie("/", request.params("nombreCookie"), request.params("valor"), 10, false); //incluyendo el path del cookie.
+            response.cookie("/", request.params("nombreCookie"), request.params("valor"), 60, true); //incluyendo el path del cookie.
 
             return "Cookie creado con exito...";
-        });
+        });*/
 
 
     }
