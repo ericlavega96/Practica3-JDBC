@@ -3,6 +3,8 @@ package logical;
 
 import freemarker.template.Configuration;
 
+import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import servicios.ServiciosBootStrap;
 import servicios.ServiciosDataBase;
 
@@ -86,6 +88,17 @@ public class Main {
 
         get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+
+            Map<String, String> cookies = request.cookies();
+            System.out.println("El cookie: "+request.cookie("iniciarSesion"));
+            String salida="";
+            System.out.println("La cantidad de elementos:" + cookies.size());
+            for(String key : cookies.keySet()){
+                salida+=String.format("Cookie %s = %s", key, cookies.get(key));
+                System.out.println(salida);
+            }
+            System.out.println(salida);
+
             attributes.put("titulo", "Iniciar Sesión-Artículos A&E");
             return new ModelAndView(attributes, "login.ftl");
         }, freeMarkerEngine);
@@ -119,10 +132,18 @@ public class Main {
             try {
                 String usernameAVerificar = request.queryParams("username");
                 String passwordsAVerificar = request.queryParams("password");
+                String isRecordado = request.queryParams("recordar");
                 Usuario logUser = SU.buscarUsuario(usernameAVerificar,passwordsAVerificar);
+
+                System.out.println("Check: " + isRecordado);
                 if (logUser != null) {
                     request.session(true);
                     request.session().attribute("usuario", logUser);
+                    if(isRecordado!=null){
+                        System.out.println(Encryptamiento(passwordsAVerificar));
+                        response.cookie("/crearCookie/", "credenciales",
+                                Encryptamiento(usernameAVerificar), (60*60), false, true);
+                    }
                     response.redirect("/");
                 } else {
                     System.out.println(logUser);
@@ -150,13 +171,8 @@ public class Main {
             String isAdmin = request.queryParams("isAdmin");
             String isAutor = request.queryParams("isAutor");
 
-            //System.out.println("Permiso admin: "+ isAdmin + " : Permiso autor " + isAutor );
 
-            //Usuario nuevoUsuario = new Usuario(nombre,username,password,
-            //        !isAdmin.equals(null)||isAdmin.equals("on"),
-            //        !isAutor.equals(null)||isAutor.endsWith("on"));
-
-            Usuario nuevoUsuario = new Usuario(nombre, username, password, true, false);
+            Usuario nuevoUsuario = new Usuario(nombre, username, password, isAdmin!=null, isAutor!=null);
             misUsuarios.add(nuevoUsuario);
             SU.crearUsuario(nuevoUsuario);
 
@@ -184,6 +200,7 @@ public class Main {
                 String nombre = request.queryParams("nombre");
                 String username = request.queryParams("username");
                 String password = request.queryParams("password");
+
                 //Faltan los permisos
 
                 usuarioEditado.setNombre(nombre);
@@ -334,7 +351,7 @@ public class Main {
         for(int i = halfSizeLow; i < halfSizeHigh; i++){
             columnaTag.add(tags.get(i));
         }
-        System.out.println(columnaTag);
+
         return columnaTag;
     }
 
@@ -356,6 +373,11 @@ public class Main {
             i++;
         }
         return etiquetasList;
+    }
+
+    public static String Encryptamiento(String text){
+        BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+        return  passwordEncryptor.encryptPassword(text);
     }
 
 
