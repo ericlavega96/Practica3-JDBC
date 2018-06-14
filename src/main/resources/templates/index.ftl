@@ -15,7 +15,25 @@
 
     <!-- Custom styles for this template -->
     <link href="css/blog-home.css" rel="stylesheet">
+      <style>
+          .editBtn{
+              background-color: #007bff;
+              color: #fff;
+              padding: 5px 5px;
+              margin: 10px 0 ;
+              border: none;
+              cursor: pointer;
+              width: 10%;
+              border-radius: 20px;
+          }
+          a.editBtn:hover{
+              text-decoration: none;
+              opacity: 0.9;
+              background-color: cornflowerblue;
+              color:white;
+          }
 
+      </style>
   </head>
 
   <body>
@@ -80,11 +98,18 @@
             <div class="card mb-4">
                 <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
                 <div class="card-body">
+              <#if logUser??>
+                  <#if logUser.administrador || logUser.autor>
+                      <a href="/editarArticulo?id=${articulo.id}" class="editBtn">Editar</a>
+                      <br>
+                      <br>
+                  </#if>
+              </#if>
                     <h2 class="card-title">${articulo.titulo}</h2>
                     <p class="card-text">
                     ${articulo.textoResumido()}
                     </p>
-                    <a href="/leerArticuloCompleto" class="btn btn-primary">Leer más &rarr;</a>
+                    <a href="/leerArticuloCompleto?id=${articulo.id}" class="btn btn-primary">Leer más &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
                     Subido en ${articulo.fechaText()} por
@@ -92,34 +117,6 @@
                 </div>
             </div>
         </#list>
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="/leerArticuloCompleto" class="btn btn-primary">Leer Más&rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="/leerArticuloCompleto" class="btn btn-primary">Leer Más &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
 
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">

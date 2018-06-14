@@ -104,6 +104,19 @@ public class Articulo {
         return month + " " + day + ", " + year;
     }
 
+    public String etiquetasString(){
+        String etiquetasString = "";
+        for (int i = 0; i < listaEtiquetas.size();i++) {
+            System.out.println("Etiqueta " + listaEtiquetas.get(i));
+            etiquetasString+= listaEtiquetas.get(i);
+            if (i < listaEtiquetas.size() -1){
+                etiquetasString += ", ";
+            }
+        }
+
+        return etiquetasString;
+    }
+
     private String nombreMes(int mes){
         String nombreMes;
         switch (mes) {

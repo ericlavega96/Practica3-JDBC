@@ -66,7 +66,7 @@ public class ServiciosUsuario {
                 o.setFecha(rs.getDate("fecha"));
 
                 o.setListaEtiquetas(listaEtiquetaArticulo(o));
-                o.setListaComentarios(listaComentario(o));
+                o.setListaComentarios(listaComentarios(o));
 
                 lista.add(o);
             }
@@ -99,6 +99,7 @@ public class ServiciosUsuario {
                 Etiqueta o = new Etiqueta();
                 o.setId(rs.getLong("codigo"));
                 o.setEtiqueta(rs.getString("tag"));
+                System.out.println("Codigo " + o.getId() + " Etiqueta "+ o.getEtiqueta());
 
                 lista.add(o);
             }
@@ -116,7 +117,7 @@ public class ServiciosUsuario {
         return lista;
     }
 
-    public List<Comentario> listaComentario(Articulo art) {
+    public List<Comentario> listaComentarios(Articulo art) {
         List<Comentario> lista = new ArrayList<>();
         Connection con = null; //objeto conexion.
         try {
@@ -131,7 +132,7 @@ public class ServiciosUsuario {
                 Comentario o = new Comentario();
                 o.setId(rs.getLong("ID"));
                 o.setComentario(rs.getString("COMENTARIO"));
-                o.setArticulo((Articulo) rs.getObject("COMENTARIO"));
+                o.setArticulo(buscarArticuloLight(rs.getLong("ARTICULO")));
                 o.setAutor(buscarComentador(o));
                 lista.add(o);
             }
@@ -154,18 +155,18 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select u.USERNAME, u.NOMBRE, u.PASSWORD, u.ADMINISTRADOR, u.AUTOR from USUARIOS u, COMENTARIOS c where c.ID = ? AND u.USERNAME = c.AUTOR";
+            String query = "select u.USERNAME as uname, u.NOMBRE as unombre, u.PASSWORD as upassword, u.ADMINISTRADOR as uadmin, u.AUTOR as uautor from USUARIOS u, COMENTARIOS c where c.ID = ? AND u.USERNAME = c.AUTOR";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
             prepareStatement.setLong(1, cmt.getId());
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
-                comentador.setUsername(rs.getString("u.USERNAME"));
-                comentador.setNombre(rs.getString("u.NOMBRE"));
-                comentador.setPassword(rs.getString("u.PASSWORD"));
-                comentador.setAdministrador(rs.getBoolean("u.ADMINISTRADOR"));
-                comentador.setAutor(rs.getBoolean("u.AUTOR"));
+                comentador.setUsername(rs.getString("uname"));
+                comentador.setNombre(rs.getString("unombre"));
+                comentador.setPassword(rs.getString("upassword"));
+                comentador.setAdministrador(rs.getBoolean("uadmin"));
+                comentador.setAutor(rs.getBoolean("uautor"));
             }
 
         } catch (SQLException ex) {
@@ -879,6 +880,78 @@ public class ServiciosUsuario {
                 articulo.setCuerpo(rs.getString("CUERPO"));
                 articulo.setAutor(buscarUsuario(rs.getString("AUTOR")));
                 articulo.setFecha(rs.getDate("fecha"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return articulo;
+    }
+
+    public Articulo buscarArticulo(Long id) {
+        Articulo articulo= null;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from ARTICULOS where ID = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, id);
+
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                articulo = new Articulo();
+                articulo.setId(rs.getLong("ID"));
+                articulo.setTitulo(rs.getString("TITULO"));
+                articulo.setCuerpo(rs.getString("CUERPO"));
+                articulo.setAutor(buscarUsuario(rs.getString("AUTOR")));
+                articulo.setFecha(rs.getDate("FECHA"));
+                articulo.setListaComentarios(listaComentarios(articulo));
+                articulo.setListaEtiquetas(listaEtiquetaArticulo(articulo));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return articulo;
+    }
+
+    public Articulo buscarArticuloLight(Long id) {
+        Articulo articulo= null;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from ARTICULOS where ID = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setLong(1, id);
+
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                articulo = new Articulo();
+                articulo.setId(rs.getLong("ID"));
+                articulo.setTitulo(rs.getString("TITULO"));
+                articulo.setCuerpo(rs.getString("CUERPO"));
+                articulo.setAutor(buscarUsuario(rs.getString("AUTOR")));
+                articulo.setFecha(rs.getDate("FECHA"));
             }
 
         } catch (SQLException ex) {

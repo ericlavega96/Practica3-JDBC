@@ -15,6 +15,25 @@
 
     <!-- Custom styles for this template -->
     <link href="css/blog-post.css" rel="stylesheet">
+    <style>
+        .deleteBtn{
+            background-color: red;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 2px;
+            margin: auto ;
+            border: none;
+            cursor: pointer;
+            width: 2%;
+            border-radius: 5px;
+        }
+        a.deleteBtn:hover{
+            text-decoration: none;
+            opacity: 0.9;
+            background-color: darkred;
+            color:white;
+        }
+    </style>
 
   </head>
 
@@ -99,22 +118,29 @@
           <hr>
 
           <!-- Comments Form -->
-          <div class="card my-4">
-            <h5 class="card-header">Deja un comentario:</h5>
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
+          <#if logUser??>
+              <div class="card my-4">
+                <h5 class="card-header">Deja un comentario:</h5>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Comentar</button>
+                  </form>
                 </div>
-                <button type="submit" class="btn btn-primary">Comentar</button>
-              </form>
-            </div>
-          </div>
+              </div>
+          </#if>
 
           <!-- Single Comment -->
-
-
           <#list articulo.listaComentarios as comentario>
+            <#if logUser??>
+              <#if logUser.administrador || logUser.autor>
+                  <a href="/borrarComentario?id=${comentario.id}" class="deleteBtn">Eliminar Comentario</a>
+                  <br>
+                  <br>
+              </#if>
+            </#if>
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">

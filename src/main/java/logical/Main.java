@@ -103,17 +103,6 @@ public class Main {
             return new ModelAndView(attributes, "index.ftl");
         }, freeMarkerEngine);
 
-        get("/post", (request, response) -> {
-            Map<String, Object> attributes = new HashMap<>();
-            Usuario logUser = request.session(true).attribute("usuario");
-
-            attributes.put("articulo", articulo);
-            attributes.put("logUser", logUser);
-            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
-            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
-            attributes.put("titulo", "Artículos A&E - Post");
-            return new ModelAndView(attributes, "verArticulo.ftl");
-        }, freeMarkerEngine);
 
         post("/procesarUsuario", (request, response) -> {
             try {
@@ -264,14 +253,33 @@ public class Main {
 
 
         get("/leerArticuloCompleto", (request, response) -> {
+
+            String idArticuloActual = request.queryParams("id");
+
             Map<String, Object> attributes = new HashMap<>();
             Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Artículo");
             attributes.put("logUser", logUser);
-            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
-            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
-            attributes.put("articulo", articulo);
+            attributes.put("articulo",SU.buscarArticulo(Long.parseLong(idArticuloActual)));
+
+            attributes.put("tagsCol1", tagsColumnas(2, 1,getTagsArticulo(SU.buscarArticulo(Long.parseLong(idArticuloActual)))));
+            attributes.put("tagsCol2", tagsColumnas(2, 2, getTagsArticulo(SU.buscarArticulo(Long.parseLong(idArticuloActual)))));
             return new ModelAndView(attributes, "verArticulo.ftl");
+        }, freeMarkerEngine);
+
+        get("/editarArticulo", (request, response) -> {
+
+            String idArticuloEditar = request.queryParams("id");
+
+            Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloEditar));
+
+            System.out.println("Id: "+ articuloAEditar.getId() + " Titulo: " + articuloAEditar.getTitulo() + " Cuerpo " + articuloAEditar.getCuerpo() + " Tags " + articuloAEditar.getListaEtiquetas());
+
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("titulo", "Editar Usuario");
+            attributes.put("articulo", articuloAEditar);
+
+            return new ModelAndView(attributes, "editarArticulo.ftl");
         }, freeMarkerEngine);
 
         get("/visualizarUsuario", (request, response) -> {
@@ -343,6 +351,15 @@ public class Main {
 
         for(Articulo A : articulos)
             for(Etiqueta E : A.getListaEtiquetas())
+                if(!tags.contains(E.tagsTransform()))
+                    tags.add(E.tagsTransform());
+        return tags;
+    }
+
+    public static List<String> getTagsArticulo(Articulo articulo){
+        List<String> tags = new ArrayList<>();
+
+            for(Etiqueta E : articulo.getListaEtiquetas())
                 if(!tags.contains(E.tagsTransform()))
                     tags.add(E.tagsTransform());
         return tags;
