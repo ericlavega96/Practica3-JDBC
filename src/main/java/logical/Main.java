@@ -325,9 +325,16 @@ public class Main {
         int halfSizeLow = ((size/numColum))*(c - 1);
         int halfSizeHigh = size/numColum*c;
 
+        if(numColum == c && tags.size()%2!=0)
+        {
+            halfSizeLow++;
+            halfSizeHigh++;
+        }
+
         for(int i = halfSizeLow; i < halfSizeHigh; i++){
             columnaTag.add(tags.get(i));
         }
+        System.out.println(columnaTag);
         return columnaTag;
     }
 
@@ -338,7 +345,6 @@ public class Main {
             for(Etiqueta E : A.getListaEtiquetas())
                 if(!tags.contains(E.tagsTransform()))
                     tags.add(E.tagsTransform());
-
         return tags;
     }
 
@@ -346,7 +352,7 @@ public class Main {
         int i = 0;
         List<Etiqueta> etiquetasList = new ArrayList<>();
         for (String etiqueta : etiquetas ){
-            etiquetasList.add(new Etiqueta(etiqueta));
+            etiquetasList.add(new Etiqueta(etiqueta.trim()));
             i++;
         }
         return etiquetasList;

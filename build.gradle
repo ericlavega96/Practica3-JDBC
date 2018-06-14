@@ -16,5 +16,5 @@ dependencies {
     compile "com.h2database:h2:1.4.197"
     compile group: 'org.webjars', name: 'bootstrap', version: '3.3.7-1'
     compile "org.slf4j:slf4j-simple:1.7.21"
-
+    compile 'org.jasypt:jasypt:{version}'
 }

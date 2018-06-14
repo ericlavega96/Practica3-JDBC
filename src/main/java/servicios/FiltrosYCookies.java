@@ -4,7 +4,7 @@ import logical.Usuario;
 
 import static spark.Spark.*;
 
-public class Filtros {
+public class FiltrosYCookies {
     public void aplicarFiltros(){
         /*before((request, response) -> {
             boolean authenticated = false;
@@ -71,6 +71,12 @@ public class Filtros {
             }
         });
 
+        get("/crearCookie/:nombreCookie/:valor", (request, response)->{
+            //creando cookie en para un minuto
+            response.cookie("/", request.params("nombreCookie"), request.params("valor"), 10, false); //incluyendo el path del cookie.
+
+            return "Cookie creado con exito...";
+        });
 
 
     }

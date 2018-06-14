@@ -37,8 +37,8 @@ public class ServiciosBootStrap {
         String tablaUsuarios = "CREATE TABLE IF NOT EXISTS Usuarios\n" +
                 "  (\n" +
                 "    username VARCHAR(1000) PRIMARY KEY,\n" +
-                "    nombre VARCHAR(1000),\n" +
-                "    password VARCHAR(1000),\n" +
+                "    nombre VARCHAR(1000) NOT NULL,\n" +
+                "    password VARCHAR(1000) NOT NULL,\n" +
                 "    administrador boolean,\n" +
                 "    autor boolean\n" +
                 "  );";
@@ -46,9 +46,9 @@ public class ServiciosBootStrap {
         String tablaArticulos = "CREATE TABLE IF NOT EXISTS Articulos\n" +
                     "  (\n" +
                     "    id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
-                    "    titulo VARCHAR(100),\n" +
-                    "    cuerpo CLOB,\n" +
-                    "    autor VARCHAR(1000),\n" +
+                    "    titulo VARCHAR(100) UNIQUE NOT NULL,\n" +
+                    "    cuerpo CLOB NOT NULL,\n" +
+                    "    autor VARCHAR(1000) NOT NULL,\n" +
                     "    fecha date,\n" +
                     "    FOREIGN KEY (autor) REFERENCES Usuarios(username)\n" +
                     "  );";
@@ -66,14 +66,14 @@ public class ServiciosBootStrap {
             String tablaEtiquetas = "CREATE TABLE IF NOT EXISTS Etiquetas\n" +
                     "  (\n" +
                     "    id bigint auto_increment PRIMARY KEY,\n" +
-                    "    etiqueta VARCHAR(1000)\n" +
+                    "    etiqueta VARCHAR(1000) UNIQUE NOT NULL \n" +
                     "  );";
 
             String tablaArticulosEtiquetas = "CREATE TABLE IF NOT EXISTS ArticulosEtiquetas\n" +
                     "  (\n" +
                     "    id bigint auto_increment PRIMARY KEY,\n" +
-                    "    articulo bigint,\n" +
-                    "    etiqueta bigint,\n" +
+                    "    articulo bigint NOT NULL,\n" +
+                    "    etiqueta bigint NOT NULL,\n" +
                     "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
                     "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
                     "  );";

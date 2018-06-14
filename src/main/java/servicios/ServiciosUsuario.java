@@ -89,7 +89,7 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select e.ID, e.ETIQUETA from ETIQUETAS e, ARTICULOSETIQUETAS ae where ae.ETIQUETA = e.ID AND ae.ARTICULO = ?";
+            String query = "select e.ID as codigo, e.ETIQUETA as tag from ETIQUETAS e, ARTICULOSETIQUETAS ae where ae.ETIQUETA = e.ID AND ae.ARTICULO = ?";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
@@ -97,8 +97,8 @@ public class ServiciosUsuario {
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Etiqueta o = new Etiqueta();
-                o.setId(rs.getLong("e.ID"));
-                o.setEtiqueta(rs.getString("e.ETIQUETA"));
+                o.setId(rs.getLong("codigo"));
+                o.setEtiqueta(rs.getString("tag"));
 
                 lista.add(o);
             }
@@ -319,17 +319,18 @@ public class ServiciosUsuario {
 
     public boolean crearEtiqueta(Etiqueta o){
         boolean ok =false;
+        if(buscarUsuario(o.getEtiqueta()) != null)
+            return false;
 
         Connection con = null;
         try {
 
-            String query = "insert into ETIQUETAS(ID, ETIQUETA) values(?,?)";
+            String query = "insert into ETIQUETAS(ETIQUETA) values(?)";
             con = ServiciosDataBase.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, o.getId());
-            prepareStatement.setString(2, o.getEtiqueta());
+            prepareStatement.setString(1, o.getEtiqueta());
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
@@ -353,15 +354,14 @@ public class ServiciosUsuario {
         Connection con = null;
         try {
 
-            String query = "insert into COMENTARIOS(ID, COMENTARIO, AUTOR, ARTICULO) values(?,?,?,?)";
+            String query = "insert into COMENTARIOS(COMENTARIO, AUTOR, ARTICULO) values(?,?,?)";
             con = ServiciosDataBase.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, o.getId());
-            prepareStatement.setString(2, o.getComentario());
-            prepareStatement.setString(3, o.getAutor().getUsername());
-            prepareStatement.setLong(4, o.getArticulo().getId());
+            prepareStatement.setString(1, o.getComentario());
+            prepareStatement.setString(2, o.getAutor().getUsername());
+            prepareStatement.setLong(3, o.getArticulo().getId());
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
@@ -428,11 +428,6 @@ public class ServiciosUsuario {
             prepareStatement.setString(3, o.getAutor().getUsername());
             prepareStatement.setDate(4,new java.sql.Date(o.getFecha().getTime()));
 
-            for(Etiqueta e : o.getListaEtiquetas()){
-                crearArticuloEtiqueta(o, e);
-            }
-
-
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
@@ -447,22 +442,26 @@ public class ServiciosUsuario {
             }
         }
 
+        for(Etiqueta e : o.getListaEtiquetas()){
+            crearArticuloEtiqueta(o, e);
+        }
+
         return ok;
     }
 
-    public boolean crearArticuloEtiqueta(Articulo o, Etiqueta E){
+    public boolean crearArticuloEtiqueta(Articulo o, Etiqueta e){
         boolean ok = false;
-
+        crearEtiqueta(e);
         Connection con = null;
         try {
-            String query = "insert into ARTICULOSETIQUETAS(ID, ARTICULO, ETIQUETA) values(?,?,?)";
+
+            String query = "insert into ARTICULOSETIQUETAS(ARTICULO, ETIQUETA) values(?,?)";
             con = ServiciosDataBase.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, o.getId());
-            prepareStatement.setLong(2, o.getId());
-            prepareStatement.setLong(3, E.getId());
+            prepareStatement.setLong(1, buscarArticulo(o.getTitulo()).getId());
+            prepareStatement.setLong(2, buscarEtiqueta(e.getEtiqueta()).getId());
 
             //
             int fila = prepareStatement.executeUpdate();
@@ -516,7 +515,7 @@ public class ServiciosUsuario {
     }
 
     public boolean actualizarArticulo(Articulo o){
-        boolean ok =false;
+        boolean ok = false;
 
         Connection con = null;
         try {
@@ -827,5 +826,73 @@ public class ServiciosUsuario {
 
         return existe;
     }
+
+    public Etiqueta buscarEtiqueta(String etiqueta) {
+        Etiqueta tag = null;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from ETIQUETAS where ETIQUETA = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setString(1, etiqueta);
+
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                tag = new Etiqueta();
+                tag.setId(rs.getLong("ID"));
+                tag.setEtiqueta(rs.getString("ETIQUETA"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return tag;
+    }
+
+    public Articulo buscarArticulo(String titulo) {
+        Articulo articulo= null;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from ARTICULOS where TITULO = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setString(1, titulo);
+
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                articulo = new Articulo();
+                articulo.setId(rs.getLong("ID"));
+                articulo.setTitulo(rs.getString("TITULO"));
+                articulo.setCuerpo(rs.getString("CUERPO"));
+                articulo.setAutor(buscarUsuario(rs.getString("AUTOR")));
+                articulo.setFecha(rs.getDate("fecha"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return articulo;
+    }
+
 
 }
