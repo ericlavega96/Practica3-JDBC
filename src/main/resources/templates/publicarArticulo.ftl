@@ -110,7 +110,7 @@
             <h1 class="my-4">Publicar Artículo</h1>
         </div>
         <div class="editorContainer">
-            <form method="post" action="/procesarArticulo/">
+            <form method="post" action="/procesarArticulo">
                 <div>
                     <div class="element">
                         <label><b>Título</b></label>

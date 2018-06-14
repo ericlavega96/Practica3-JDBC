@@ -45,7 +45,7 @@ public class ServiciosBootStrap {
 
         String tablaArticulos = "CREATE TABLE IF NOT EXISTS Articulos\n" +
                     "  (\n" +
-                    "    id bigint auto_increment PRIMARY KEY,\n" +
+                    "    id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
                     "    titulo VARCHAR(100),\n" +
                     "    cuerpo CLOB,\n" +
                     "    autor VARCHAR(1000),\n" +

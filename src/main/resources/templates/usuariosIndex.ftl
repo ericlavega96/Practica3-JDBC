@@ -80,7 +80,7 @@
                 <input name="nombre" type="text" required>
 
                 Nombre de Usuario<br>
-                <input name="username" type="text" required readonly>
+                <input name="username" type="text" required>
 
                 Contrasena<br>
                 <input name="password" type="password" required>

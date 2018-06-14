@@ -5,10 +5,7 @@ import logical.Comentario;
 import logical.Etiqueta;
 import logical.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,7 +47,7 @@ public class ServiciosUsuario {
         return lista;
     }
 
-    public List<Articulo> listaArticulo() {
+    public List<Articulo> listaArticulos() {
         List<Articulo> lista = new ArrayList<>();
         Connection con = null; //objeto conexion.
         try {
@@ -65,7 +62,8 @@ public class ServiciosUsuario {
                 o.setId(rs.getLong("id"));
                 o.setTitulo(rs.getString("titulo"));
                 o.setCuerpo(rs.getString("cuerpo"));
-                o.setAutor((Usuario)rs.getObject("fecha"));
+                o.setAutor(buscarUsuario(rs.getString(  "autor")));
+                o.setFecha(rs.getDate("fecha"));
 
                 o.setListaEtiquetas(listaEtiquetaArticulo(o));
                 o.setListaComentarios(listaComentario(o));
@@ -420,15 +418,15 @@ public class ServiciosUsuario {
         Connection con = null;
         try {
 
-            String query = "insert into ARTICULOS(ID, TITULO, CUERPO, AUTOR) values(?,?,?,?)";
+            String query = "insert into ARTICULOS(TITULO, CUERPO, AUTOR,FECHA) values(?,?,?,?)";
             con = ServiciosDataBase.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, o.getId());
-            prepareStatement.setString(2, o.getTitulo());
-            prepareStatement.setString(3, o.getCuerpo());
-            prepareStatement.setString(4, o.getAutor().getUsername());
+            prepareStatement.setString(1, o.getTitulo());
+            prepareStatement.setString(2, o.getCuerpo());
+            prepareStatement.setString(3, o.getAutor().getUsername());
+            prepareStatement.setDate(4,new java.sql.Date(o.getFecha().getTime()));
 
             for(Etiqueta e : o.getListaEtiquetas()){
                 crearArticuloEtiqueta(o, e);

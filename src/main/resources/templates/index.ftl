@@ -82,7 +82,7 @@
                 <div class="card-body">
                     <h2 class="card-title">${articulo.titulo}</h2>
                     <p class="card-text">
-                    ${articulo.cuerpo}
+                    ${articulo.textoResumido()}
                     </p>
                     <a href="/leerArticuloCompleto" class="btn btn-primary">Leer más &rarr;</a>
                 </div>

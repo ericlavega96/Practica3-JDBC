@@ -97,11 +97,9 @@
 							<td>Ninguno</td>
 						</#if>
 					</tr>
-					<tr>
-                        <td><a href="/visualizarUsuario?id=${usuario.username}" class="button">Visualizar</a></td>
-                        <td><a href="/editarUsuario?id=${usuario.username}" class="button">Editar</a></td>
-					</tr>
 				</table>
+                <td><a href="/editarUsuario?id=${usuario.username}" class="button">Editar</a></td>
+                <td><a href="/eliminarUsuario?id=${usuario.username}" class="button">Eliminar</a></td>
 				<br>
 				<br>
 			</div>

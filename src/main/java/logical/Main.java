@@ -92,17 +92,14 @@ public class Main {
 
         get("/", (request, response) -> {
             Usuario logUser = request.session(true).attribute("usuario");
-            if(logUser == null)
-                System.out.println("No login");
-            else
-                System.out.println("El usuario " + logUser.getUsername() + " se ha logueado");
             Map<String, Object> attributes = new HashMap<>();
+            List<Articulo> misArticulos = SU.listaArticulos();
+
             attributes.put("titulo", "Página de artículos A&E");
             attributes.put("logUser", logUser);
-            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
-            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
-            attributes.put("articulos", articulos);
-
+            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(misArticulos)));
+            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(misArticulos)));
+            attributes.put("articulos", misArticulos);
             return new ModelAndView(attributes, "index.ftl");
         }, freeMarkerEngine);
 
@@ -216,8 +213,7 @@ public class Main {
             Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Publicar Artículo");
             attributes.put("logUser", logUser);
-            System.out.println("Mostrar formulario del articulo");
-            return new ModelAndView(attributes, "publicarArticulo.html");
+            return new ModelAndView(attributes, "publicarArticulo.ftl");
         }, freeMarkerEngine);
 
        /* post("/procesarArticulo", (request, response) -> {
@@ -250,13 +246,14 @@ public class Main {
             try {
                 String titulo = request.queryParams("title");
                 String cuerpo = request.queryParams("cuerpo");
-                Usuario autor = misUsuarios.get(0);
+                Usuario autor = request.session(true).attribute("usuario");
                 Date fecha = new Date();
                 List<Comentario> articuloComentarios = new ArrayList<>();
                 String[] etiquetas = request.queryParams("etiquetas").split(",");
                 List<Etiqueta> articuloEtiquetas = crearEtiquetas(etiquetas);
 
                 Articulo nuevoArticulo = new Articulo(titulo,cuerpo,autor,fecha,articuloComentarios,articuloEtiquetas);
+                SU.crearArticulo(nuevoArticulo);
 
                 response.redirect("/");
             } catch (Exception e) {
@@ -282,7 +279,7 @@ public class Main {
             String usernameUsuario = request.queryParams("id");
             attributes.put("titulo", "Visualizar Usuario");
             attributes.put("usuario", SU.buscarUsuario(usernameUsuario));
-            return new ModelAndView(attributes, "prueba.ftl");
+            return new ModelAndView(attributes, "visualizarUsuario.ftl");
         }, freeMarkerEngine);
 
         get("/editarUsuario", (request, response) -> {
