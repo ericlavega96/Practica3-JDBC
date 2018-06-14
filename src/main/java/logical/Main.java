@@ -19,10 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 
 
 public class Main {
@@ -106,6 +103,16 @@ public class Main {
             Map<String, Object> attributes = new HashMap<>();
             List<Articulo> misArticulos = SU.listaArticulos();
 
+            if(logUser == null && request.cookie("credenciales") != null){
+                request.session(true);
+                String username = request.cookie("credenciales");
+                request.session().attribute("usuario", SU.buscarUsuario(request.cookie("credenciales")));
+                response.redirect("/");
+            }
+
+
+
+
             attributes.put("titulo", "Página de artículos A&E");
             attributes.put("logUser", logUser);
             attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(misArticulos)));
@@ -126,12 +133,11 @@ public class Main {
                     request.session(true);
                     request.session().attribute("usuario", logUser);
                     if(isRecordado!=null){
-                        response.cookie("/crearCookie/", "credenciales",
-                                Encryptamiento(usernameAVerificar), (60*60), false, true);
+                        response.cookie("/", "credenciales",
+                                usernameAVerificar, (60*60*24*7), false, true);
                     }
                     response.redirect("/");
                 } else {
-                    System.out.println(logUser);
                     response.redirect("/iniciarSesion");
                 }
             } catch (Exception e) {
@@ -203,10 +209,11 @@ public class Main {
         });
 
 
-        get("/logout", (resquest, response) ->
+        get("/logout", (request, response) ->
         {
-            Session ses = resquest.session(true);
+            Session ses = request.session(true);
             ses.invalidate();
+            response.removeCookie("credenciales");
             response.redirect("/");
             return "";
         });
