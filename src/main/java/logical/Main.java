@@ -26,7 +26,7 @@ public class Main {
 
     private static List<Usuario> misUsuarios = new ArrayList<>();
 
-    private static String idUsuarioActual;
+    private static String usernameUsuarioActual;
 
 
     public static void main(String[] args) throws SQLException {
@@ -179,42 +179,10 @@ public class Main {
             return new ModelAndView(attributes, "listaUsuarios.ftl");
         }, freeMarkerEngine);
 
-        get("/visualizarUsuario/:id", (request, response) -> {
-
-            idUsuarioActual = request.params("id");
-            List<Usuario> usuariosEncontrados = SU.listaUsuario();
-            Usuario logUser = request.session(true).attribute("usuario");
-            Usuario usuario = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
-
-            Map<String, Object> attributes = new HashMap<>();
-            attributes.put("titulo", "Visualizar Usuario");
-            attributes.put("usuario", usuario);
-            attributes.put("logUser", logUser);
-            attributes.put("idUsuario", idUsuarioActual);
-
-            return new ModelAndView(attributes, "visualizarUsuario.ftl");
-        }, freeMarkerEngine);
-
-        get("/editarUsuario/:id", (request, response) -> {
-
-            idUsuarioActual = request.params("id");
-            List<Usuario> usuariosEncontrados = SU.listaUsuario();
-            Usuario logUser = request.session(true).attribute("usuario");
-            Usuario usuario = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
-
-            Map<String, Object> attributes = new HashMap<>();
-            attributes.put("titulo", "Editar Usuario");
-            attributes.put("logUser", logUser);
-            attributes.put("usuario", usuario);
-
-            return new ModelAndView(attributes, "editarUsuario.ftl");
-        }, freeMarkerEngine);
-
         post("/salvarUsuarioEditado", (request, response) -> {
             try {
 
-                List<Usuario> usuariosEncontrados = SU.listaUsuario();
-                Usuario usuarioEditado = usuariosEncontrados.get(Integer.parseInt(idUsuarioActual));
+                Usuario usuarioEditado = SU.buscarUsuario(usernameUsuarioActual);
 
                 String nombre = request.queryParams("nombre");
                 String username = request.queryParams("username");
@@ -234,15 +202,6 @@ public class Main {
             return "";
         });
 
-        get("/eliminarUsuario/:id", (request, response) -> {
-
-            idUsuarioActual = request.params("id");
-            SU.borrarUsuario(idUsuarioActual);
-            misUsuarios.remove(Integer.parseInt(idUsuarioActual));
-
-            response.redirect("/listaUsuarios");
-            return "";
-        });
 
         get("/logout", (resquest, response) ->
         {
@@ -258,7 +217,7 @@ public class Main {
             attributes.put("titulo", "Publicar Artículo");
             attributes.put("logUser", logUser);
             System.out.println("Mostrar formulario del articulo");
-            return new ModelAndView(attributes, "publicarArticulo.ftl");
+            return new ModelAndView(attributes, "publicarArticulo.html");
         }, freeMarkerEngine);
 
        /* post("/procesarArticulo", (request, response) -> {
@@ -315,19 +274,35 @@ public class Main {
             return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
-        get("/pruebaVisualizar", (request, response) -> {
+        get("/visualizarUsuario", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
+            String usernameUsuario = request.queryParams("id");
             attributes.put("titulo", "Visualizar Usuario");
-            attributes.put("usuario", misUsuarios.get(0));
-            return new ModelAndView(attributes, "pruebaVisualizar.ftl");
+            attributes.put("usuario", SU.buscarUsuario(usernameUsuario));
+            return new ModelAndView(attributes, "prueba.ftl");
         }, freeMarkerEngine);
 
-        get("/pruebaEditar", (request, response) -> {
+        get("/editarUsuario", (request, response) -> {
+
+            usernameUsuarioActual = request.queryParams("id");
+
+            Usuario usuario = SU.buscarUsuario(usernameUsuarioActual);
+
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Editar Usuario");
-            attributes.put("usuario", misUsuarios.get(0));
-            return new ModelAndView(attributes, "pruebaEditar.ftl");
+            attributes.put("usuario", usuario);
+
+            return new ModelAndView(attributes, "editarUsuario.ftl");
         }, freeMarkerEngine);
+
+        get("/eliminarUsuario", (request, response) -> {
+
+            usernameUsuarioActual = request.queryParams("id");
+            SU.borrarUsuario(usernameUsuarioActual);
+
+            response.redirect("/listaUsuarios");
+            return "";
+        });
 
     }
 

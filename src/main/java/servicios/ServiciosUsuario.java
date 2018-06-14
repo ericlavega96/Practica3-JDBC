@@ -246,6 +246,8 @@ public class ServiciosUsuario {
         return autor;
     }
 
+
+
     public Usuario buscarUsuario(String username, String password) {
         Usuario user = null;
 
@@ -258,6 +260,41 @@ public class ServiciosUsuario {
             PreparedStatement prepareStatement = con.prepareStatement(query);
             prepareStatement.setString(1, username);
             prepareStatement.setString(2, password);
+
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                user = new Usuario();
+                user.setUsername(rs.getString("USERNAME"));
+                user.setNombre(rs.getString("NOMBRE"));
+                user.setPassword(rs.getString("PASSWORD"));
+                user.setAdministrador(rs.getBoolean("ADMINISTRADOR"));
+                user.setAutor(rs.getBoolean("AUTOR"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ServiciosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return user;
+    }
+
+    public Usuario buscarUsuario(String username) {
+        Usuario user = null;
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from USUARIOS where USERNAME = ?";
+            con = ServiciosDataBase.getInstancia().getConexion();
+
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setString(1, username);
 
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
@@ -513,7 +550,7 @@ public class ServiciosUsuario {
         return ok;
     }
 
-    public boolean borrarUsuario(String key){
+    public boolean borrarUsuario(String username){
         boolean ok = false;
 
         Connection con = null;
@@ -525,7 +562,7 @@ public class ServiciosUsuario {
             PreparedStatement prepareStatement = con.prepareStatement(query);
 
             //Indica el where...
-            prepareStatement.setString(1, key);
+            prepareStatement.setString(1, username);
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;

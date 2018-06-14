@@ -63,20 +63,20 @@
           <!-- Blog Post -->
           <#list articulos as articulo>
             <div class="card mb-4">
-              <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-              <div class="card-body">
-                  <h2 class="card-title">${articulo.titulo}</h2>
-                  <p class="card-text">
-                      ${articulo.cuerpo}
-                  </p>
-                  <a href="/leerArticuloCompleto" class="btn btn-primary">Leer más &rarr;</a>
-              </div>
-              <div class="card-footer text-muted">
-                  Subido en ${articulo.fechaText()} por
-                  <a href="#">${articulo.autor.nombre}</a>
-              </div>
+                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                <div class="card-body">
+                    <h2 class="card-title">${articulo.titulo}</h2>
+                    <p class="card-text">
+                    ${articulo.cuerpo}
+                    </p>
+                    <a href="/leerArticuloCompleto" class="btn btn-primary">Leer más &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Subido en ${articulo.fechaText()} por
+                    <a href="#">${articulo.autor.nombre}</a>
+                </div>
             </div>
-          </#list>
+        </#list>
 
           <!-- Blog Post -->
           <div class="card mb-4">

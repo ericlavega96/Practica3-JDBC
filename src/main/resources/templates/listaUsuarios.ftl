@@ -34,7 +34,6 @@
               opacity: 0.8;
               color: whitesmoke;
           }
-          
       </style>
 
     <!-- Bootstrap core CSS -->
@@ -82,7 +81,6 @@
                     <th>Nombre</th><th>Nombre de Usuario</th><th>Contrasena</th><th>Permiso</th>
                 </tr>
                 <tr>
-                <#assign x = 0>
                 <#list listaUsuarios as usuario>
                     <tr>
                         <td>${usuario.nombre}</td>
@@ -95,11 +93,10 @@
                         <#else>
                             <td>Ninguno</td>
                         </#if>
-                        <td><a href="/visualizarUsuario/${x}" class="button">Visualizar</a></td>
-                        <td><a href="/editarUsuario/${x}" class="button">Editar</a></td>
-                        <td><a href="/eliminarUsuario/${x}" class="button">Eliminar</a></td>
+                        <td><a href="/visualizarUsuario?id=${usuario.username}" class="button">Visualizar</a></td>
+                        <td><a href="/editarUsuario?id=${usuario.username}" class="button">Editar</a></td>
+                        <td><a href="/eliminarUsuario?id=${usuario.username}" class="button">Eliminar</a></td>
                     </tr>
-                    <#assign x++>
                 </#list>
                 </tr>
             </table>

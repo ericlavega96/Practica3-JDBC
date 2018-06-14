@@ -34,7 +34,6 @@
               opacity: 0.8;
               color: whitesmoke;
           }
-
       </style>
 
     <!-- Bootstrap core CSS -->
@@ -71,45 +70,42 @@
 
     <!-- Page Content -->
     <div class="container">
-
-      <div class="row">
-
+		<div class="row">
         <!-- Blog Entries Column -->
-        <div class="tablaContainer">
-            <h1 class="my-4">Visualizar Usuario</h1>
-            <table>
-                <tr>
-                    <th>Nombre:</th>
-                    <td>${usuario.nombre}</td>
-                </tr>
-                <tr>
-                    <th>Nombre de Usuario:</th>
-                    <td>${usuario.username}</td>
-                </tr>
-                <tr>
-                    <th>Contrasena:</th>
-                    <td>${usuario.password}</td>
-                </tr>
-                <tr>
-                    <th>Permiso:</th>
-                    <#if usuario.administrador>
-                        <td>Administrador</td>
-                    <#elseif usuario.autor>
-                        <td>Autor</td>
-                    <#else>
-                        <td>Ninguno</td>
-                    </#if>
-                </tr>
-                <tr>
-                    <td><a href="/visualizarUsuario/${idUsuario}" class="button">Visualizar</a></td>
-                    <td><a href="/editarUsuario/${idUsuario}" class="button">Editar</a></td>
-                    <td><a href="/eliminarUsuario/${idUsuario}" class="button">Eliminar</a></td>
-                </tr>
-            </table>
-            <br>
-            <br>
-        </div>
-      </div>
+			<div class="tablaContainer">
+				<h1 class="my-4">Visualizar Usuario</h1>
+				<table>
+					<tr>
+						<th>Nombre:</th>
+						<td>${usuario.nombre}</td>
+					</tr>
+					<tr>
+						<th>Nombre de Usuario:</th>
+						<td>${usuario.username}</td>
+					</tr>
+					<tr>
+						<th>Contrasena:</th>
+						<td>${usuario.password}</td>
+					</tr>
+					<tr>
+						<th>Permiso:</th>
+						<#if usuario.administrador>
+							<td>Administrador</td>
+						<#elseif usuario.autor>
+							<td>Autor</td>
+						<#else>
+							<td>Ninguno</td>
+						</#if>
+					</tr>
+					<tr>
+                        <td><a href="/visualizarUsuario?id=${usuario.username}" class="button">Visualizar</a></td>
+                        <td><a href="/editarUsuario?id=${usuario.username}" class="button">Editar</a></td>
+					</tr>
+				</table>
+				<br>
+				<br>
+			</div>
+		</div>
     </div>
     <footer class="py-5 bg-dark">
       <div class="container">
