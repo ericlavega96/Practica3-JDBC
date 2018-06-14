@@ -109,7 +109,7 @@
                     <p class="card-text">
                     ${articulo.textoResumido()}
                     </p>
-                    <a href="/leerArticuloCompleto?id=${articulo.id}" class="btn btn-primary">Leer más &rarr;</a>
+                    <a href="/leerArticuloCompleto?idArticulo=${articulo.id}" class="btn btn-primary">Leer más &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
                     Subido en ${articulo.fechaText()} por

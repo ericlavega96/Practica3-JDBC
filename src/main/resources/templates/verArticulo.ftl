@@ -122,9 +122,9 @@
               <div class="card my-4">
                 <h5 class="card-header">Deja un comentario:</h5>
                 <div class="card-body">
-                  <form>
+                  <form action="/comentarArticulo" method="post">
                     <div class="form-group">
-                      <textarea class="form-control" rows="3"></textarea>
+                      <textarea name="comentarioNuevo" class="form-control" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Comentar</button>
                   </form>
@@ -136,7 +136,7 @@
           <#list articulo.listaComentarios as comentario>
             <#if logUser??>
               <#if logUser.administrador || logUser.autor>
-                  <a href="/borrarComentario?id=${comentario.id}" class="deleteBtn">Eliminar Comentario</a>
+                  <a href="/eliminarComentario?idArticulo=${articulo.id}&idComentario=${comentario.id}" class="deleteBtn">Eliminar Comentario</a>
                   <br>
                   <br>
               </#if>

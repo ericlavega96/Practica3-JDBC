@@ -271,7 +271,7 @@ public class Main {
 
         get("/leerArticuloCompleto", (request, response) -> {
 
-            String idArticuloActual = request.queryParams("id");
+            String idArticuloActual = request.queryParams("idArticulo");
 
             Map<String, Object> attributes = new HashMap<>();
             Usuario logUser = request.session(true).attribute("usuario");
@@ -298,6 +298,18 @@ public class Main {
 
             return new ModelAndView(attributes, "editarArticulo.ftl");
         }, freeMarkerEngine);
+
+        get("/eliminarComentario", (request, response) -> {
+
+            String idArticuloActual = request.queryParams("idArticulo");
+            String idComentarioAEliminar = request.queryParams("idComentario");
+            System.out.println("Id Articulo "+ idArticuloActual + " idComentario " + idComentarioAEliminar);
+
+            SU.borrarComentario(Long.parseLong(idComentarioAEliminar));
+
+            response.redirect("/leerArticuloCompleto?idArticulo=" + idArticuloActual);
+            return "";
+        });
 
         get("/visualizarUsuario", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
@@ -326,6 +338,22 @@ public class Main {
             SU.borrarUsuario(usernameUsuarioActual);
 
             response.redirect("/listaUsuarios");
+            return "";
+        });
+
+        post("/comentarArticulo", (request, response) -> {
+            try {
+                String comentario = request.queryParams("comentarioNuevo");
+                Usuario autor = request.session(true).attribute("usuario");
+                Articulo articuloActual = SU.buscarArticulo(Long.parseLong(request.queryParams("idArticulo")));
+
+                Comentario nuevoComentario = new Comentario(comentario,autor,articuloActual);
+                SU.crearComentario(nuevoComentario);
+
+                response.redirect("/leerArticuloCompleto?idArticulo=" + articuloActual.getId());
+            } catch (Exception e) {
+                System.out.println("Error al publicar comentario: " + e.toString());
+            }
             return "";
         });
 
