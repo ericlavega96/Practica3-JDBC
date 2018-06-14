@@ -76,11 +76,11 @@
         <div class="registrarUsuarioContainer">
           <h1 class="my-4">Registrar Usuario</h1>
             <form action="/registrarNuevoUsuario" method="post">
-                Nombre<br>
-                <input name="nombre" type="text" required>
-
-                Nombre de Usuario<br>
+                Username<br>
                 <input name="username" type="text" required>
+
+                Nombre del Usuario<br>
+                <input name="nombre" type="text" required>
 
                 Contrasena<br>
                 <input name="password" type="password" required>

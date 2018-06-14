@@ -82,13 +82,13 @@
 			<div class="tablaContainer">
 				<h1 class="my-4">Editar Usuario</h1>
                 <form action="/salvarUsuarioEditado" method="post">
-                    Nombre<br>
-                    <input name="nombre" type="text" value = ${usuario.nombre}>
-
-                    Nombre de Usuario<br>
+                    Username<br>
                     <input name="username" type="text" readonly value=${usuario.username}>
 
-                    Contrasena<br>
+                    Nombre del Usuario<br>
+                    <input name="nombre" type="text" value = ${usuario.nombre}>
+
+                    Contraseña<br>
                     <input name="password" type="password" value=${usuario.password}>
 
 

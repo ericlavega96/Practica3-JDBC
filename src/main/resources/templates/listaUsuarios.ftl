@@ -78,13 +78,13 @@
           <h1 class="my-4">Lista de Usuarios</h1>
             <table>
                 <tr>
-                    <th>Nombre</th><th>Nombre de Usuario</th><th>Contrasena</th><th>Permiso</th>
+                    <th>Username</th><th>Nombre del Usuario</th><th>Contraseña</th><th>Permiso</th>
                 </tr>
                 <tr>
                 <#list listaUsuarios as usuario>
                     <tr>
-                        <td>${usuario.nombre}</td>
                         <td>${usuario.username}</td>
+                        <td>${usuario.nombre}</td>
                         <td>${usuario.password}</td>
                         <#if usuario.administrador>
                             <td>Administrador</td>

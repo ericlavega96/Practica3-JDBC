@@ -5,6 +5,7 @@ import freemarker.template.Configuration;
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import servicios.FiltrosYCookies;
 import servicios.ServiciosBootStrap;
 import servicios.ServiciosDataBase;
 
@@ -40,6 +41,7 @@ public class Main {
         cfg.setClassForTemplateLoading(Main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(cfg);
 
+        new FiltrosYCookies().aplicarFiltros();
 
         Usuario user = new Usuario("aavgc", "Adonis", "1234", true, false);
         Usuario ericUser = new Usuario("ericlavega96", "Eric", "1234", true, false);
@@ -90,14 +92,10 @@ public class Main {
             Map<String, Object> attributes = new HashMap<>();
 
             Map<String, String> cookies = request.cookies();
-            System.out.println("El cookie: "+request.cookie("iniciarSesion"));
             String salida="";
-            System.out.println("La cantidad de elementos:" + cookies.size());
-            for(String key : cookies.keySet()){
+            for(String key : cookies.keySet())
                 salida+=String.format("Cookie %s = %s", key, cookies.get(key));
-                System.out.println(salida);
-            }
-            System.out.println(salida);
+
 
             attributes.put("titulo", "Iniciar Sesión-Artículos A&E");
             return new ModelAndView(attributes, "login.ftl");
@@ -124,12 +122,10 @@ public class Main {
                 String isRecordado = request.queryParams("recordar");
                 Usuario logUser = SU.buscarUsuario(usernameAVerificar,passwordsAVerificar);
 
-                System.out.println("Check: " + isRecordado);
                 if (logUser != null) {
                     request.session(true);
                     request.session().attribute("usuario", logUser);
                     if(isRecordado!=null){
-                        System.out.println(Encryptamiento(passwordsAVerificar));
                         response.cookie("/crearCookie/", "credenciales",
                                 Encryptamiento(usernameAVerificar), (60*60), false, true);
                     }
@@ -161,7 +157,7 @@ public class Main {
             String isAutor = request.queryParams("isAutor");
 
 
-            Usuario nuevoUsuario = new Usuario(nombre, username, password, isAdmin!=null, isAutor!=null);
+            Usuario nuevoUsuario = new Usuario(nombre, username, password, isAdmin!=null, false);
             misUsuarios.add(nuevoUsuario);
             SU.crearUsuario(nuevoUsuario);
 
@@ -195,8 +191,9 @@ public class Main {
                 usuarioEditado.setNombre(nombre);
                 usuarioEditado.setUsername(username);
                 usuarioEditado.setPassword(password);
-                usuarioEditado.setAdministrador(true);
-                usuarioEditado.setAutor(false);
+                usuarioEditado.setAdministrador(false);
+                usuarioEditado.setAutor(true);
+
                 SU.actualizarUsuario(usuarioEditado);
                 response.redirect("/listaUsuarios");
             } catch (Exception e) {

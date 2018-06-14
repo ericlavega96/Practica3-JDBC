@@ -76,15 +76,15 @@
 				<h1 class="my-4">Visualizar Usuario</h1>
 				<table>
 					<tr>
-						<th>Nombre:</th>
-						<td>${usuario.nombre}</td>
-					</tr>
-					<tr>
-						<th>Nombre de Usuario:</th>
+						<th>Username:</th>
 						<td>${usuario.username}</td>
 					</tr>
+                    <tr>
+                        <th>Nombre del Usuario:</th>
+                        <td>${usuario.nombre}</td>
+                    </tr>
 					<tr>
-						<th>Contrasena:</th>
+						<th>Contraseña:</th>
 						<td>${usuario.password}</td>
 					</tr>
 					<tr>
