@@ -119,7 +119,7 @@ public class Articulo {
 
     private String nombreMes(int mes){
         String nombreMes;
-        switch (mes) {
+        switch (mes+1) {
             case 1:  nombreMes = "Enero";
                 break;
             case 2:  nombreMes = "Febrero";

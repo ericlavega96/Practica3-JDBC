@@ -52,7 +52,7 @@ public class ServiciosUsuario {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from articulos";
+            String query = "select * from articulos order by FECHA DESC";
             con = ServiciosDataBase.getInstancia().getConexion();
 
             PreparedStatement prepareStatement = con.prepareStatement(query);
