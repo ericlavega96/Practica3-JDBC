@@ -271,6 +271,9 @@ public class Main {
             Usuario logUser = request.session(true).attribute("usuario");
             attributes.put("titulo", "Artículo");
             attributes.put("logUser", logUser);
+            attributes.put("tagsCol1", tagsColumnas(2, 1, getAllTags(articulos)));
+            attributes.put("tagsCol2", tagsColumnas(2, 2, getAllTags(articulos)));
+            attributes.put("articulo", articulo);
             return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
