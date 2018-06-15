@@ -5,6 +5,7 @@ import freemarker.template.Configuration;
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import servicios.FiltrosYCookies;
 import servicios.ServiciosBootStrap;
 import servicios.ServiciosDataBase;
@@ -58,32 +59,10 @@ public class Main {
         SU.crearAdmin();
         //ServiciosBootStrap.detenetBD();
 
-
-        List<Articulo> articulos = new ArrayList<>();
-        List<Comentario> comentarios = new ArrayList<>();
-        List<Comentario> comentarios2 = new ArrayList<>();
-        List<Etiqueta> tags = new ArrayList<>();
-        List<Etiqueta> tags2 = new ArrayList<>();
-
-        tags.add(new Etiqueta("deportes"));
-        tags.add(new Etiqueta("moda"));
-
-        tags2.add(new Etiqueta("noticia"));
-        tags2.add(new Etiqueta("negocios"));
-        tags2.add(new Etiqueta("farándula"));
-
-        Articulo articulo = new Articulo("prueba", "prueba prueba prueba",
-                user, new Date(), comentarios, tags);
-        comentarios.add(new Comentario("prueba prueba prueba", user, articulo));
-        comentarios.add(new Comentario("probando uno dos tres", ericUser, articulo));
-        articulos.add(articulo);
-
-        Articulo articulo2 = new Articulo("Segundo Articulo", "Conenido del segundo artículo. \n" +
-                "Segundo parrafo con contenido del artículo.",
-                ericUser, new Date(), comentarios2, tags2);
-        comentarios2.add(new Comentario("Prueba #1", user, articulo));
-        comentarios2.add(new Comentario("Segundo comentario.", ericUser, articulo));
-        articulos.add(articulo2);
+        String prueba = Encryptamiento("prueba");
+        System.out.println(prueba);
+        prueba = Desencryptamiento(prueba);
+        System.out.println(prueba);
 
         get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
@@ -106,7 +85,8 @@ public class Main {
             if(logUser == null && request.cookie("credenciales") != null){
                 request.session(true);
                 String username = request.cookie("credenciales");
-                request.session().attribute("usuario", SU.buscarUsuario(request.cookie("credenciales")));
+                request.session().attribute("usuario",
+                        SU.buscarUsuario(Desencryptamiento(request.cookie("credenciales"))));
                 response.redirect("/");
             }
 
@@ -134,7 +114,7 @@ public class Main {
                     request.session().attribute("usuario", logUser);
                     if(isRecordado!=null){
                         response.cookie("/", "credenciales",
-                                usernameAVerificar, (60*60*24*7), false, true);
+                                Encryptamiento(usernameAVerificar), (60*60*24*7), false, true);
                     }
                     response.redirect("/");
                 } else {
@@ -425,8 +405,19 @@ public class Main {
     }
 
     public static String Encryptamiento(String text){
-        BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-        return  passwordEncryptor.encryptPassword(text);
+        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+        textEncryptor.setPasswordCharArray("some-random-data".toCharArray());
+        String myEncryptedText = textEncryptor.encrypt(text);
+        return myEncryptedText;
+
+    }
+
+    public static String Desencryptamiento(String text){
+        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+        textEncryptor.setPasswordCharArray("some-random-data".toCharArray());
+        String plainText = textEncryptor.decrypt(text);
+
+        return plainText;
     }
 
 
