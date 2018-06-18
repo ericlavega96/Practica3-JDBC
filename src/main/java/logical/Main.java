@@ -206,32 +206,7 @@ public class Main {
             return new ModelAndView(attributes, "publicarArticulo.ftl");
         }, freeMarkerEngine);
 
-       /* post("/procesarArticulo", (request, response) -> {
-            System.out.println("Entró al post");
 
-            try {
-                String titulo = request.queryParams("title");
-                System.out.println("Entro en 1 " + titulo);
-                String cuerpo = request.queryParams("cuerpo");
-                System.out.println("Entro en 2" + cuerpo);
-                List<Comentario> articuloComentarios = new ArrayList<>();
-                String[] articuloEtiquetas = request.queryParams("etiquetas").split(",");
-                System.out.println("Entro en 3" + articuloEtiquetas);
-
-                Articulo nuevoArticulo = new Articulo(titulo,cuerpo,misUsuarios.get(0),new Date(),articuloComentarios,crearEtiquetas(articuloEtiquetas));
-                System.out.println("Se anadió el articulo");
-                articulos.add(nuevoArticulo);
-                System.out.println("Funciono!");
-
-            } catch (Exception e) {
-                System.out.println("Error al intentar publicar articulo" + e.toString());
-            }
-            response.redirect("/");
-            System.out.println("Redirecciona...");
-            return "";
-        });
-    }
-    */
         post("/procesarArticulo", (request, response) -> {
             try {
                 String titulo = request.queryParams("title");
@@ -253,9 +228,9 @@ public class Main {
         });
 
 
-        get("/leerArticuloCompleto", (request, response) -> {
+        get("/leerArticuloCompleto/:id", (request, response) -> {
 
-            String idArticuloActual = request.queryParams("idArticulo");
+            String idArticuloActual = request.params("id");
 
             Map<String, Object> attributes = new HashMap<>();
             Usuario logUser = request.session(true).attribute("usuario");
@@ -268,16 +243,14 @@ public class Main {
             return new ModelAndView(attributes, "verArticulo.ftl");
         }, freeMarkerEngine);
 
-        get("/editarArticulo", (request, response) -> {
+        get("/editarArticulo/:id", (request, response) -> {
 
             String idArticuloEditar = request.queryParams("id");
 
             Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloEditar));
 
-            System.out.println("Id: "+ articuloAEditar.getId() + " Titulo: " + articuloAEditar.getTitulo() + " Cuerpo " + articuloAEditar.getCuerpo() + " Tags " + articuloAEditar.getListaEtiquetas());
-
             Map<String, Object> attributes = new HashMap<>();
-            attributes.put("titulo", "Editar Usuario");
+            attributes.put("titulo", "Editar Articulo");
             attributes.put("articulo", articuloAEditar);
 
             return new ModelAndView(attributes, "editarArticulo.ftl");
@@ -291,7 +264,7 @@ public class Main {
 
             SU.borrarComentario(Long.parseLong(idComentarioAEliminar));
 
-            response.redirect("/leerArticuloCompleto?idArticulo=" + idArticuloActual);
+            response.redirect("/leerArticuloCompleto/" + idArticuloActual);
             return "";
         });
 
@@ -325,7 +298,7 @@ public class Main {
             return "";
         });
 
-        post("/comentarArticulo", (request, response) -> {
+        post("/comentarArticulo/:idArticulo", (request, response) -> {
             try {
                 String comentario = request.queryParams("comentarioNuevo");
                 Usuario autor = request.session(true).attribute("usuario");
@@ -334,7 +307,7 @@ public class Main {
                 Comentario nuevoComentario = new Comentario(comentario,autor,articuloActual);
                 SU.crearComentario(nuevoComentario);
 
-                response.redirect("/leerArticuloCompleto?idArticulo=" + articuloActual.getId());
+                response.redirect("/leerArticuloCompleto/" + articuloActual.getId());
             } catch (Exception e) {
                 System.out.println("Error al publicar comentario: " + e.toString());
             }

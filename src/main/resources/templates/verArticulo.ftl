@@ -11,10 +11,10 @@
     <title>${titulo}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/blog-post.css" rel="stylesheet">
+    <link href="/css/blog-post.css" rel="stylesheet">
     <style>
         .deleteBtn{
             background-color: red;
@@ -122,7 +122,7 @@
               <div class="card my-4">
                 <h5 class="card-header">Deja un comentario:</h5>
                 <div class="card-body">
-                  <form action="/comentarArticulo" method="post">
+                  <form action="/comentarArticulo/${articulo.id}" method="post">
                     <div class="form-group">
                       <textarea name="comentarioNuevo" class="form-control" rows="3"></textarea>
                     </div>
@@ -219,8 +219,8 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   </body>
 
