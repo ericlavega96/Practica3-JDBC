@@ -245,9 +245,11 @@ public class Main {
 
         get("/editarArticulo/:id", (request, response) -> {
 
-            String idArticuloEditar = request.queryParams("id");
+            String idArticuloEditar = request.params("id");
 
             Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloEditar));
+
+            System.out.println("Titulo:"+articuloAEditar.getTitulo()+" Cuerpo: "+articuloAEditar.getCuerpo());
 
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Editar Articulo");
@@ -298,11 +300,11 @@ public class Main {
             return "";
         });
 
-        post("/comentarArticulo/:idArticulo", (request, response) -> {
+        post("/comentarArticulo/:id", (request, response) -> {
             try {
                 String comentario = request.queryParams("comentarioNuevo");
                 Usuario autor = request.session(true).attribute("usuario");
-                Articulo articuloActual = SU.buscarArticulo(Long.parseLong(request.queryParams("idArticulo")));
+                Articulo articuloActual = SU.buscarArticulo(Long.parseLong(request.params("id")));
 
                 Comentario nuevoComentario = new Comentario(comentario,autor,articuloActual);
                 SU.crearComentario(nuevoComentario);

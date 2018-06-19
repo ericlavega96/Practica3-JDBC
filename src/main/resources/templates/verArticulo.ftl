@@ -134,19 +134,21 @@
 
           <!-- Single Comment -->
           <#list articulo.listaComentarios as comentario>
-            <#if logUser??>
-              <#if logUser.administrador || logUser.autor>
-                  <a href="/eliminarComentario?idArticulo=${articulo.id}&idComentario=${comentario.id}" class="deleteBtn">Eliminar Comentario</a>
-                  <br>
-                  <br>
-              </#if>
-            </#if>
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
                 <h5 class="mt-0">${comentario.autor.username}</h5>
                   ${comentario.comentario}
                 </div>
+            </div>
+            <div>
+                <#if logUser??>
+                    <#if logUser.administrador || logUser.autor>
+                        <a href="/eliminarComentario?idArticulo=${articulo.id}&idComentario=${comentario.id}" class="deleteBtn">Eliminar Comentario</a>
+                        <br>
+                        <br>
+                    </#if>
+                </#if>
             </div>
           </#list>
         </div>
