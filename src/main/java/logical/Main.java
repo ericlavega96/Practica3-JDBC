@@ -25,8 +25,6 @@ import static spark.Spark.*;
 
 public class Main {
 
-    private static List<Usuario> misUsuarios = new ArrayList<>();
-
     private static String usernameUsuarioActual;
     private static String idArticuloActual;
 
@@ -42,12 +40,6 @@ public class Main {
 
         new FiltrosYCookies().aplicarFiltros();
 
-        Usuario user = new Usuario("aavgc", "Adonis", "1234", true, false);
-        Usuario ericUser = new Usuario("ericlavega96", "Eric", "1234", true, false);
-
-        misUsuarios.add(user);
-        misUsuarios.add(ericUser);
-
 
         //Pruebas conexion BD modo Server
         ServiciosBootStrap.iniciarBD();
@@ -58,12 +50,9 @@ public class Main {
 
         ServiciosUsuario SU = new ServiciosUsuario();
         SU.crearAdmin();
-        //ServiciosBootStrap.detenetBD();
 
         String prueba = Encryptamiento("prueba");
-        System.out.println(prueba);
         prueba = Desencryptamiento(prueba);
-        System.out.println(prueba);
 
         get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
@@ -90,9 +79,6 @@ public class Main {
                         SU.buscarUsuario(Desencryptamiento(request.cookie("credenciales"))));
                 response.redirect("/");
             }
-
-
-
 
             attributes.put("titulo", "Página de artículos A&E");
             attributes.put("logUser", logUser);
@@ -136,23 +122,21 @@ public class Main {
         }, freeMarkerEngine);
 
         post("/registrarNuevoUsuario", (request, response) -> {
-            // try {
+            try {
             String nombre = request.queryParams("nombre");
             String username = request.queryParams("username");
             String password = request.queryParams("password");
-            String isAdmin = request.queryParams("isAdmin");
-            String isAutor = request.queryParams("isAutor");
+            String isAdmin = request.queryParams("rbAdmin");
+            String isAutor = request.queryParams("rbAutor");
 
-
-            Usuario nuevoUsuario = new Usuario(nombre, username, password, isAdmin!=null, false);
-            misUsuarios.add(nuevoUsuario);
+            Usuario nuevoUsuario = new Usuario(nombre, username, password, isAdmin!=null, isAutor!=null);
             SU.crearUsuario(nuevoUsuario);
 
             response.redirect("/listaUsuarios");
 
-            //} catch (Exception e) {
-            //    System.out.println("Error al registrar un usuario " + e.toString());
-            //}
+            } catch (Exception e) {
+                System.out.println("Error al registrar un usuario " + e.toString());
+            }
             return "";
         });
 
@@ -172,14 +156,16 @@ public class Main {
                 String nombre = request.queryParams("nombre");
                 String username = request.queryParams("username");
                 String password = request.queryParams("password");
+                String isAdmin = request.queryParams("rbAdmin");
+                String isAutor = request.queryParams("rbAutor");
 
                 //Faltan los permisos
 
                 usuarioEditado.setNombre(nombre);
                 usuarioEditado.setUsername(username);
                 usuarioEditado.setPassword(password);
-                usuarioEditado.setAdministrador(false);
-                usuarioEditado.setAutor(true);
+                usuarioEditado.setAdministrador(isAdmin!=null);
+                usuarioEditado.setAutor(isAutor!=null);
 
                 SU.actualizarUsuario(usuarioEditado);
                 response.redirect("/listaUsuarios");
@@ -229,7 +215,7 @@ public class Main {
         });
 
         post("/salvarArticuloEditado", (request, response) -> {
-           // try {
+            try {
 
                 Articulo articuloEditado = SU.buscarArticulo(Long.parseLong(idArticuloActual));
 
@@ -252,9 +238,9 @@ public class Main {
                 SU.actualizarArticulo(articuloEditado);
 
                 response.redirect("/");
-            //} catch (Exception e) {
-              //  System.out.println("Error al editar el artículo: " + e.toString());
-           // }
+            } catch (Exception e) {
+                System.out.println("Error al editar el artículo: " + e.toString());
+            }
             return "";
         });
 
@@ -280,8 +266,6 @@ public class Main {
 
             Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloActual));
 
-            System.out.println("Titulo:"+articuloAEditar.getTitulo()+" Cuerpo: "+articuloAEditar.getCuerpo());
-
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Editar Articulo");
             attributes.put("articulo", articuloAEditar);
@@ -293,7 +277,6 @@ public class Main {
 
             String idArticuloActual = request.queryParams("idArticulo");
             String idComentarioAEliminar = request.queryParams("idComentario");
-            System.out.println("Id Articulo "+ idArticuloActual + " idComentario " + idComentarioAEliminar);
 
             SU.borrarComentario(Long.parseLong(idComentarioAEliminar));
 
@@ -349,16 +332,6 @@ public class Main {
 
     }
 
-
-    /*public static boolean verificarUsuario(String nombreUsuario,String password){
-        boolean usuarioRegistrado = false;
-        for (Usuario usuario: misUsuarios){
-            if (usuario.getUsername().equals(nombreUsuario)  && usuario.getPassword().equals(password)){
-                    usuarioRegistrado = true;
-            }
-        }
-        return usuarioRegistrado;
-    }*/
 
     public static List<String> tagsColumnas(int numColum,int c, List<String> tags){
         List<String> columnaTag = new ArrayList<>();
@@ -425,6 +398,5 @@ public class Main {
 
         return plainText;
     }
-
 
 }

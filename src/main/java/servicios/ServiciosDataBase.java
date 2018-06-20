@@ -46,7 +46,7 @@ public class ServiciosDataBase {
 
     public void testConexion() {
         getConexion();
-        System.out.println("Conexión realizado con exito...");
+        System.out.println("Conexión realizada con exito...");
     }
 
 }
