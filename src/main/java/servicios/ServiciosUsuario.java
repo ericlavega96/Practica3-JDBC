@@ -521,7 +521,7 @@ public class ServiciosUsuario {
         Connection con = null;
         try {
 
-            String query = "update ARTICULOS set TITULO=?, CUERPO=?, AUTOR=?,  where ID= ?";
+            String query = "update ARTICULOS set TITULO=?, CUERPO=?, AUTOR=? where ID= ?";
             con = ServiciosDataBase.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);

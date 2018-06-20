@@ -28,6 +28,7 @@ public class Main {
     private static List<Usuario> misUsuarios = new ArrayList<>();
 
     private static String usernameUsuarioActual;
+    private static String idArticuloActual;
 
 
     public static void main(String[] args) throws SQLException {
@@ -227,6 +228,36 @@ public class Main {
             return "";
         });
 
+        post("/salvarArticuloEditado", (request, response) -> {
+           // try {
+
+                Articulo articuloEditado = SU.buscarArticulo(Long.parseLong(idArticuloActual));
+
+                String titulo = request.queryParams("title");
+                String cuerpo = request.queryParams("cuerpo");
+                Usuario autor = request.session(true).attribute("usuario");
+                Date fecha = new Date();
+                List<Comentario> articuloComentarios = new ArrayList<>();
+                String[] etiquetas = request.queryParams("etiquetas").split(",");
+                List<Etiqueta> articuloEtiquetas = crearEtiquetas(etiquetas);
+
+                articuloEditado.setTitulo(titulo);
+                articuloEditado.setCuerpo(cuerpo);
+                articuloEditado.setAutor(autor);
+                articuloEditado.setFecha(fecha);
+                articuloEditado.setListaEtiquetas(articuloEtiquetas);
+                articuloEditado.setListaComentarios(articuloComentarios);
+
+
+                SU.actualizarArticulo(articuloEditado);
+
+                response.redirect("/");
+            //} catch (Exception e) {
+              //  System.out.println("Error al editar el artículo: " + e.toString());
+           // }
+            return "";
+        });
+
 
         get("/leerArticuloCompleto/:id", (request, response) -> {
 
@@ -245,9 +276,9 @@ public class Main {
 
         get("/editarArticulo/:id", (request, response) -> {
 
-            String idArticuloEditar = request.params("id");
+             idArticuloActual = request.params("id");
 
-            Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloEditar));
+            Articulo articuloAEditar = SU.buscarArticulo(Long.parseLong(idArticuloActual));
 
             System.out.println("Titulo:"+articuloAEditar.getTitulo()+" Cuerpo: "+articuloAEditar.getCuerpo());
 
